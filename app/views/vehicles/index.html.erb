@@ -1,3 +1,9 @@
+ <script type="text/javascript">
+  jQuery(function() {
+    $("#home").addClass("current-page-item");
+    $("#about").removeClass("current-page-item");
+  });
+</script> 
   <div id="banner-wrapper">
       <div class="5grid-layout">
         <div class="row">
@@ -16,13 +22,14 @@
         <div class="row main-row">
           <div class="3u">
             <section>
-              <h2>Search your Ride</h2>
+              <h2>Search your Ride </h2>
+              <h3> e.g. MH 04 A ****</h3>
               <%= form_for(@vehicle, :url => search_path, :method => :post) do |f|  %>
                 <div class="field">
-                  <label>Vehicle Plate: </label><br/>
-                    <%= f.text_field :state_code, :size=>"2*10" %> 
+                  <label style="margin-bottom:3px; float:none;">Vehicle Plate: </label><br/>
+                    <%= f.text_field :state_code, :size=>"2*10", :style => "text-transform:uppercase" %> 
                     <%= f.text_field :state_number, :size=>"2*10" %> 
-                    <%= f.text_field :plate_letter, :size=>"2*10" %> 
+                    <%= f.text_field :plate_letter, :size=>"2*10", :style => "text-transform:uppercase" %> 
                     <%= f.text_field :plate_number, :size=>"3*10" %><br/>
                 </div>
                 <div class="actions">
@@ -45,7 +52,7 @@
                 <li>
                   <a href="#"><%= image_tag("dyk.jpg", :class=>"left") %></a>
                   <h4>Did You Know</h4>
-                  <p>CNG Cylinders fitted in Public Transport vehicles need to be inspected once every 5 years</p>
+                  <p>CNG Cylinders fitted in Public Transport vehicles need to be inspected once every 5 years. Private agencies are responsible to issue the certificate.</p>
                 </li>
               </ul>
             </section>
