@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Know Your Ride, Know Your Savaari</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+    <noscript>
+    <%= stylesheet_link_tag    "5grid/core.css" %>
+    <%= stylesheet_link_tag    "5grid/core-desktop.css" %>
+    <%= stylesheet_link_tag    "5grid/core-1200px.css" %>
+    <%= stylesheet_link_tag    "5grid/core-noscript.css" %>
+    <%= stylesheet_link_tag    "style" %>
+    <%= stylesheet_link_tag    "style-desktop.css" %>
+    </noscript>
+    <%= javascript_include_tag '5grid/jquery.js' %>
+    <script src="../assets/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI.theme=none&amp;mobileUI.titleBarHeight=55&amp;mobileUI.openerWidth=66"></script>
+
+    <!--<%= javascript_include_tag '5grid/init.js?use=mobile,desktop,1000px&mobileUI=1&mobileUI.theme=none&mobileUI.titleBarHeight=55&mobileUI.openerWidth=66"' %>-->
+	</head>
+	<body>
+	<!-- ********************************************************* -->
+		<div id="header-wrapper">
+			<div class="5grid-layout">
+				<div class="row">
+					<div class="12u">						
+						<header id="header">
+							<h1><a href="#" class="mobileUI-site-name">Know Your Savaari</a></h1>
+							<nav class="mobileUI-site-nav">
+								<%= link_to 'Homepage', vehicles_path , :class => "current-page-item" %>
+								<%= link_to 'About', about_path %>
+							</nav>
+						</header>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<%= yield %>
+		<div id="footer-wrapper">
+			<div class="5grid-layout">
+				<div class="row">
+					<div class="12u">
+
+						<div id="copyright">
+							&copy; <a href="http://www.amoghconsultants.com">Amogh Consultants Inc.</a> All rights reserved. | Design: <a href="http://html5up.net">HTML5 Up!</a> | Images: <a href="http://fotogrph.com">Fotogrph</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- ********************************************************* -->
+	</body>
+</html>

@@ -1,0 +1,62 @@
+<div class="5grid-layout">
+  <div class="row">
+    <div class="8u">
+      <h2>Vehicle Types</h2>
+      <section>
+        <div class="5grid">
+          <div class="row">
+            <div class="3u">
+              <ul class="link-list">
+                <li>Vehicle Type Name</li>
+              </ul>
+              <ul class="link-list">
+                <li></li>
+              </ul>
+              <ul class="link-list">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="5grid">
+          <div class="row">
+            <div class="3u">
+              <ul class="link-list">
+                <% @vehicle_types.each do |vehicle_type| %>
+                  <li><%= vehicle_type.vehicle_type_name %></li>
+                <% end %>
+              </ul>
+            </div>
+            <div class="3u">
+              <ul class="link-list">
+                <% @vehicle_types.each do |vehicle_type| %>
+                  <li><%= link_to 'Show', vehicle_type %></li>
+                <% end %>
+              </ul>
+            </div>
+            <div class="3u">
+              <ul class="link-list">
+                <% @vehicle_types.each do |vehicle_type| %>
+                  <li><%= link_to 'Edit', edit_vehicle_type_path(vehicle_type) %></li>
+                <% end %>
+              </ul>
+            </div>
+            <div class="3u">
+              <ul class="link-list">
+                <% @vehicle_types.each do |vehicle_type| %>
+                <li>
+                  <%= link_to 'Destroy', vehicle_type,  method: :delete, data: { confirm: 'Are you sure?' } %>
+                </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+      </section>
+    </div>
+  </div>
+</div>
+  <!-- ********************************************************* -->
+<br />
+
+
+<%= link_to 'New Vehicle type', new_vehicle_type_path %>

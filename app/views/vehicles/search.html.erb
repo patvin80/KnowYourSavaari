@@ -1,0 +1,10 @@
+<% form_tag search_path, :method => :post do %>
+  <h2>Submit Record</h2>
+  <div class="field">
+    <label>Vehicle Plate: </label><br/>
+      <%= f.text_field :state_code, :size=>"2*10" %> 
+      <%= f.text_field :state_number, :size=>"2*10" %> 
+      <%= f.text_field :plate_letter, :size=>"2*10" %> 
+      <%= f.text_field :plate_number, :size=>"3*10" %><br/>
+  </div>
+<% end %>

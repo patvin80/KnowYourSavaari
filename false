@@ -1,0 +1,6 @@
+      invoke  active_record
+      create    db/migrate/20121220010630_create_vehicle_types.rb
+      create    app/models/vehicle_type.rb
+      invoke    test_unit
+      create      test/unit/vehicle_type_test.rb
+      create      test/fixtures/vehicle_types.yml

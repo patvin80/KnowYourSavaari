@@ -1,0 +1,85 @@
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        $( "#datepicker" ).datepicker({
+        });
+    });
+    </script>
+    <style>
+        div.ui-datepicker{
+     font-size:10px;
+    }
+    </style>
+
+    <div id="main">
+      <div class="5grid-layout">
+        <div class="row main-row">
+          <div class="8u">            
+            <section class="left-content">
+              <%= @notice %>
+              <%= form_for(@vehicle) do |f| %>
+                <% if @vehicle.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(@vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+
+                    <ul>
+                    <% @vehicle.errors.full_messages.each do |msg| %>
+                      <li><%= msg %></li>
+                    <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+                <h2>Submit Record</h2>
+                <div class="field">
+                  <label class="label">Vehicle Plate: </label>
+                    <%= f.text_field :state_code, :size=>"2*10" %> 
+                    <%= f.text_field :state_number, :size=>"2*10" %> 
+                    <%= f.text_field :plate_letter, :size=>"2*10" %> 
+                    <%= f.text_field :plate_number, :size=>"3*10" %><br/>
+                </div>
+                  <%= f.fields_for :vehicle_inspections do |vi_form| %>
+                    <div class="field">
+                      <label class="label">Is Current?:</label> <%= check_box_tag :is_current %>
+                    </div>
+                    <div class="field">
+                      <label class="label">Expiry:</label>  <%= vi_form.text_field :expiration_date, :size=>"24", :id=>"datepicker" %>   
+                    </div>
+                    <div class="field">
+                      <label class="label">Agency:</label>  <%= vi_form.text_field :inspection_agency, :size=>"24" %>   
+                    </div>
+                  <% end %>
+                <div class="actions" style="float:right">
+                  <%= f.submit "Submit", :class => "button" %>
+                </div>
+              <% end %>
+            </section>
+            </div>
+            <div class="4u">
+              <section>
+                <h2>Data Usage and Reporting</h2>
+                <ul class="small-image-list">
+                  <li>
+                    <h4>Community Use Only</h4>
+                    <p>Data Collected is used for Community Purpose only and not sold to any agency or is provided for regulation. We however do not discourage the Law Enforcement Community to lawfully use the data for regulation and enforcement, which is however not controlled by the service provider.</p>
+                  </li>
+                </ul>
+              </section>
+              <section>
+              <h2>CNG Service Providers Link</h2>
+              <div class="5grid">
+                <div class="row">
+                  <div class="6u">
+                    <ul class="link-list">
+                      <li><a href="www.mecelec.in" target="_blank">Mec Elec Pvt Ltd</a></li>
+                      <li><a href="www.mecelec.in" target="_blank">Gascyl</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+            </div>
+          </div>
+        </div>
+      </div> 

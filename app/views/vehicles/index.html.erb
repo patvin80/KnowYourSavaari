@@ -1,0 +1,59 @@
+  <div id="banner-wrapper">
+      <div class="5grid-layout">
+        <div class="row">
+          <div class="12u">
+            <div id="banner">
+              <h2 style="margin-bottom:8px;">Is your Ride Safe?</h2>
+              <span>Uninspected CNG Cylinders in public vehicles are prone to accidents which are fatal in nature and can be avoided by enforcement. </span>
+            </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main">
+      <div class="5grid-layout">
+        <div class="row main-row">
+          <div class="3u">
+            <section>
+              <h2>Search your Ride</h2>
+              <%= form_for(@vehicle, :url => search_path, :method => :post) do |f|  %>
+                <div class="field">
+                  <label>Vehicle Plate: </label><br/>
+                    <%= f.text_field :state_code, :size=>"2*10" %> 
+                    <%= f.text_field :state_number, :size=>"2*10" %> 
+                    <%= f.text_field :plate_letter, :size=>"2*10" %> 
+                    <%= f.text_field :plate_number, :size=>"3*10" %><br/>
+                </div>
+                <div class="actions">
+                  <%= f.submit "Search", :class => "button" %>
+                </div>
+              <% end %>
+            </section>
+          </div>
+          <div class="6u mobileUI-main-content">
+            <section class="middle-content">
+              <h2>Contribute to the Community</h2>
+              <p>YOU CAN!!! As a vigilant citizen or a contributing parent your submissions to our database will ensure that the data about CNG Certifications can be accessed by everybody. So if you feel like it ...</p>
+              <%= link_to 'Submit a Record', new_vehicle_path, :class => "button" %>
+            </section>
+          </div>
+          <div class="3u">
+            <section>
+              <h2>Knowledge Base</h2>
+              <ul class="small-image-list">
+                <li>
+                  <a href="#"><%= image_tag("dyk.jpg", :class=>"left") %></a>
+                  <h4>Did You Know</h4>
+                  <p>CNG Cylinders fitted in Public Transport vehicles need to be inspected once every 5 years</p>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+

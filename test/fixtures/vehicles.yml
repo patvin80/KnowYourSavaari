@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  state_code: MyString
+  state_number: 1
+  plate_letter: MyString
+  plate_number: 1
+
+two:
+  state_code: MyString
+  state_number: 1
+  plate_letter: MyString
+  plate_number: 1
