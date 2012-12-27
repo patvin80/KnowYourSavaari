@@ -41,7 +41,7 @@
                 </div>
                   <%= f.fields_for :vehicle_inspections do |vi_form| %>
                     <div class="field">
-                      <label class="label">Is Current?:</label> <%= check_box_tag :is_current %>
+                      <label class="label">Is Current?:</label> <%= vi_form.check_box :is_current %>
                     </div>
                     <div class="field">
                       <label class="label">Expiry:</label>  <%= vi_form.text_field :expiration_date, :size=>"24", :id=>"datepicker" %>   

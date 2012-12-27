@@ -197,9 +197,9 @@
 		jQuery.fn.accelerate_5grid = function() { return jQuery(this).css('-webkit-transform', 'translateZ(0)').css('-webkit-backface-visibility', 'hidden').css('-webkit-perspective', '500'); }
 
 	// Determine base URL, settings
-		x = jQuery('script').filter(function() { return this.src.match(/5grid\/init\.js/); }).first();
+		x = jQuery('script').filter(function() { return this.src.match(/init\.js/); }).first();
 		y = x.attr('src').split('?');
-		baseURL = y[0].replace(/5grid\/init\.js/, '');
+		baseURL = y[0].replace(/init\.js/, '');
 
 		// Override settings
 			if (y.length > 1)
@@ -252,7 +252,7 @@
 			{
 				// HTML5 Shiv
 					if (jQuery.browser.version < 9)
-						_head.append('<script type="text/javascript" src="' + baseURL + '5grid/html5shiv.js" />');
+						_head.append('<script type="text/javascript" src="' + baseURL + 'html5shiv.js" />');
 
 				// Versions that don't support CSS3 pseudo classes
 					if (jQuery.browser.version < 8)
@@ -269,7 +269,7 @@
 			}
 
 	// Insert stylesheets
-		headQueue.pushE_5grid(baseURL + '5grid/core.css')
+		headQueue.pushE_5grid(baseURL + '/core.css')
 		headQueue.pushE_5grid(baseURL + _settings.prefix + '.css');
 
 /*********************/
@@ -293,7 +293,7 @@
 		{
 			_5grid.isMobile = true;
 			_head.prepend('<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />');
-			headQueue.pushE_5grid(baseURL + '5grid/core-mobile.css');
+			headQueue.pushE_5grid(baseURL + 'core-mobile.css');
 			
 			if (_settings.mobileUI == 1)
 			{
@@ -301,7 +301,7 @@
 
 				if (_settings.mobileUI_theme != 'none')
 				{
-					headQueue.pushE_5grid(baseURL + '5grid/mobileUI-' + _settings.mobileUI_theme + '.css');
+					headQueue.pushE_5grid(baseURL + 'mobileUI-' + _settings.mobileUI_theme + '.css');
 
 					if (_settings.mobileUI_themeTitleBarColor)
 						headQueue.pushI_5grid('#mobileUI-site-titlebar { background-color: ' + _settings.mobileUI_themeTitleBarColor + '; }');
@@ -321,15 +321,15 @@
 			{
 				_5grid.isFluid = true;
 				_head.prepend('<meta name="viewport" content="width=' + _settings.viewport_is1200px + '" />');
-				headQueue.pushE_5grid(baseURL + '5grid/core-desktop.css');
-				headQueue.pushE_5grid(baseURL + '5grid/core-fluid.css');
+				headQueue.pushE_5grid(baseURL + 'core-desktop.css');
+				headQueue.pushE_5grid(baseURL + 'core-fluid.css');
 				headQueue.pushE_5grid(baseURL + _settings.prefix + '-fluid.css');
 			}
 			// Desktop
 			else if (doDesktop)
 			{
 				_5grid.isDesktop = true;
-				headQueue.pushE_5grid(baseURL + '5grid/core-desktop.css');
+				headQueue.pushE_5grid(baseURL + 'core-desktop.css');
 				headQueue.pushE_5grid(baseURL + _settings.prefix + '-desktop.css');
 			
 				// 1200px
@@ -337,7 +337,7 @@
 				{
 					_5grid.is1200px = true;
 					_head.prepend('<meta name="viewport" content="width=' + _settings.viewport_is1200px + '" />');
-					headQueue.pushE_5grid(baseURL + '5grid/core-1200px.css');
+					headQueue.pushE_5grid(baseURL + 'core-1200px.css');
 					
 					// Load 1200px stylesheet if 1200px was explicitly enabled
 					if (do1200px)
@@ -348,7 +348,7 @@
 				{
 					_5grid.is1000px = true;
 					_head.prepend('<meta name="viewport" content="width=' + _settings.viewport_is1000px + '" />');
-					headQueue.pushE_5grid(baseURL + '5grid/core-1000px.css');
+					headQueue.pushE_5grid(baseURL + 'core-1000px.css');
 
 					// Load 1000px stylesheet if 1000px was explicitly enabled
 					if (do1000px)
@@ -363,8 +363,8 @@
 					_5grid.isDesktop = true;
 					_5grid.is1000px = true;
 					_head.prepend('<meta name="viewport" content="width=' + _settings.viewport_is1000px + '" />');
-					headQueue.pushE_5grid(baseURL + '5grid/core-desktop.css');
-					headQueue.pushE_5grid(baseURL + '5grid/core-1000px.css');
+					headQueue.pushE_5grid(baseURL + 'core-desktop.css');
+					headQueue.pushE_5grid(baseURL + 'core-1000px.css');
 					headQueue.pushE_5grid(baseURL + _settings.prefix + '-1000px.css');
 				}
 				// 1200px (exclusive)
@@ -373,8 +373,8 @@
 					_5grid.isDesktop = true;
 					_5grid.is1200px = true;
 					_head.prepend('<meta name="viewport" content="width=' + _settings.viewport_is1200px + '" />');
-					headQueue.pushE_5grid(baseURL + '5grid/core-desktop.css');
-					headQueue.pushE_5grid(baseURL + '5grid/core-1200px.css');
+					headQueue.pushE_5grid(baseURL + 'core-desktop.css');
+					headQueue.pushE_5grid(baseURL + 'core-1200px.css');
 					headQueue.pushE_5grid(baseURL + _settings.prefix + '-1200px.css');
 				}
 			}

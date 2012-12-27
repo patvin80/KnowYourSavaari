@@ -69,7 +69,8 @@ class VehiclesController < ApplicationController
     @vehicle = Vehicle.find(:first, :conditions => [ "state_code = ? AND state_number = ? AND plate_number = ?  AND plate_letter = ?", @passedvehicle.state_code, @passedvehicle.state_number, @passedvehicle.plate_number, @passedvehicle.plate_letter])
     if (@vehicle.nil?)
       @vehicle = Vehicle.new(params[:vehicle])
-      @vehicle_inspection = @vehicle.vehicle_inspections.build(:is_current => !params[:is_current].nil?, :expiration_date => !params[:expiration_date].nil?, :inspection_agency => !params[:inspection_agency].nil? )
+      #@vehicle_inspection = VehicleInspection.new(params[:vehicle_inspections])
+      @vehicle_inspection = @vehicle.vehicle_inspections.build(:is_current => @vehicle.vehicle_inspections.first.is_current, :expiration_date => @vehicle.vehicle_inspections.first.expiration_date, :inspection_agency => @vehicle.vehicle_inspections.first.inspection_agency )
     else
       @vehicle_inspection = @vehicle.vehicle_inspections.build(:is_current => @passedvehicle.vehicle_inspections.first.is_current.nil?, :expiration_date => @passedvehicle.vehicle_inspections.first.expiration_date, :inspection_agency => @passedvehicle.vehicle_inspections.first.inspection_agency )
     end
