@@ -396,9 +396,9 @@
 				_body.addClass('is-mobile');
 				if ($('#chart_div') != 'undefined')
 					{
-						$('#chart_div').width(350);
-						$('#chart_div').height(200);
-						$('#chart_div').css("margin-left", "-50px");
+						$('#chart_div').width(400);
+						$('#chart_div').height(250);
+						$('#chart_div').css("margin-left", "-95px");
 					}
 				if ($('.label') != 'undefined')
 					{

@@ -6,7 +6,8 @@
       jQuery(function(){ 
         var yesValue = <%= @yesCount %>;//'<%= @yesCount / (@yesCount + @noCount) * 100 %>' ;
         var noValue = <%= @noCount %>;//'<%= @noCount / (@yesCount + @noCount) * 100 %>' ;
-        var data = [['Yes',yesValue], ['No',noValue]];             
+        var totValue = yesValue + noValue;
+        var data = [['Yes ('+ yesValue + ')',yesValue], ['No ('+ noValue + ')',noValue]];             
         var plot8 = $.jqplot('chart_div', [data], {
                   grid: {            
                       drawBorder: false,
@@ -17,7 +18,7 @@
                   axesDefaults: {
                       
                   },
-                  title: '<%= @vehicle.state_code %> - <%= @vehicle.state_number.to_s.rjust(2, '0')  %> - <%= @vehicle.plate_letter %> - <%= @vehicle.plate_number.to_s.rjust(4, '0')  %>',
+                  title: 'Total Results: ' + totValue,
                   seriesDefaults:{
                       renderer:$.jqplot.PieRenderer,
                       rendererOptions: {
