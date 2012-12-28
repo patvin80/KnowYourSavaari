@@ -14,6 +14,8 @@ class VehiclesController < ApplicationController
   # POST /vehicles.json
   def search
     @passedvehicle = Vehicle.new(params[:vehicle])
+    @passedvehicle.state_code = @passedvehicle.state_code.upcase
+    @passedvehicle.plate_letter = @passedvehicle.plate_letter.upcase
     @vehicle = Vehicle.find(:first, :conditions => [ "state_code = ? AND state_number = ? AND plate_number = ?  AND plate_letter = ?", @passedvehicle.state_code, @passedvehicle.state_number, @passedvehicle.plate_number, @passedvehicle.plate_letter])
     if (@vehicle.nil?)
       #render 'new'
@@ -64,15 +66,18 @@ class VehiclesController < ApplicationController
   def create
     #@vehicle = Vehicle.where(params[:vehicle]).first
     @passedvehicle = Vehicle.new(params[:vehicle])
+    @passedvehicle.state_code = @passedvehicle.state_code.upcase
+    @passedvehicle.plate_letter = @passedvehicle.plate_letter.upcase
     #@vehicle = nil
     #@vehicle = Vehicle.joins(:vehicle_inspections).where(:state_code => params[:state_code], :state_number => params[:state_number], :plate_number => params[:plate_number], :plate_letter => params[:plate_letter]).first
     @vehicle = Vehicle.find(:first, :conditions => [ "state_code = ? AND state_number = ? AND plate_number = ?  AND plate_letter = ?", @passedvehicle.state_code, @passedvehicle.state_number, @passedvehicle.plate_number, @passedvehicle.plate_letter])
     if (@vehicle.nil?)
       @vehicle = Vehicle.new(params[:vehicle])
-      #@vehicle_inspection = VehicleInspection.new(params[:vehicle_inspections])
+      @vehicle.state_code = @vehicle.state_code.upcase
+      @vehicle.plate_letter = @vehicle.plate_letter.upcase      #@vehicle_inspection = VehicleInspection.new(params[:vehicle_inspections])
       @vehicle_inspection = @vehicle.vehicle_inspections.build(:is_current => @vehicle.vehicle_inspections.first.is_current, :expiration_date => @vehicle.vehicle_inspections.first.expiration_date, :inspection_agency => @vehicle.vehicle_inspections.first.inspection_agency )
     else
-      @vehicle_inspection = @vehicle.vehicle_inspections.build(:is_current => @passedvehicle.vehicle_inspections.first.is_current.nil?, :expiration_date => @passedvehicle.vehicle_inspections.first.expiration_date, :inspection_agency => @passedvehicle.vehicle_inspections.first.inspection_agency )
+      @vehicle_inspection = @vehicle.vehicle_inspections.build(:is_current => @passedvehicle.vehicle_inspections.first.is_current, :expiration_date => @passedvehicle.vehicle_inspections.first.expiration_date, :inspection_agency => @passedvehicle.vehicle_inspections.first.inspection_agency )
     end
 
     respond_to do |format|

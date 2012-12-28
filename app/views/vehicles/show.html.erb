@@ -1,21 +1,38 @@
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['IsCertified', 'Count'],
-          ['Yes',     <%= @yesCount %>],
-          ['No',      <%= @noCount %>]
-        ]);
-
-        var options = {
-          title: 'Inspection Results for <%= @vehicle.state_code %> - <%= @vehicle.state_number %> - <%= @vehicle.plate_letter %> - <%= @vehicle.plate_number %> '
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
+      <%= javascript_include_tag "excanvas" %>
+      <%= javascript_include_tag "chart" %>
+      <%= javascript_include_tag "jqplot.pieRenderer" %>
+    <%= stylesheet_link_tag    "jquery.jqplot.min" %>
+      <script type="text/javascript">
+      jQuery(function(){ 
+        var yesValue = <%= @yesCount %>;//'<%= @yesCount / (@yesCount + @noCount) * 100 %>' ;
+        var noValue = <%= @noCount %>;//'<%= @noCount / (@yesCount + @noCount) * 100 %>' ;
+        var data = [['Yes',yesValue], ['No',noValue]];             
+        var plot8 = $.jqplot('chart_div', [data], {
+                  grid: {            
+                      drawBorder: false,
+                      drawGridlines: false,
+                      background: '#ffffff',
+                      shadow:false
+                  },
+                  axesDefaults: {
+                      
+                  },
+                  title: '<%= @vehicle.state_code %> - <%= @vehicle.state_number.to_s.rjust(2, '0')  %> - <%= @vehicle.plate_letter %> - <%= @vehicle.plate_number.to_s.rjust(4, '0')  %>',
+                  seriesDefaults:{
+                      renderer:$.jqplot.PieRenderer,
+                      rendererOptions: {
+                          showDataLabels: true
+                      }
+                  },
+                  legend: {
+                      show: true,
+                      rendererOptions: {
+                          numberRows: 1
+                      },
+                      location: 's'
+                  }
+              });
+      });
     </script>
 
     <div id="main">
@@ -23,9 +40,9 @@
         <div class="row main-row">
           <div class="8u">            
             <section class="left-content">
-    					<h2><%= @vehicle.state_code %> - <%= @vehicle.state_number %> - <%= @vehicle.plate_letter %> - <%= @vehicle.plate_number %> </h2>
+    					<h2><%= @vehicle.state_code %> - <%= @vehicle.state_number.to_s.rjust(2, '0') %> - <%= @vehicle.plate_letter %> - <%= @vehicle.plate_number.to_s.rjust(4, '0') %> </h2>
     					<p>Here are the results for the vehicle based upon earlier submissions.</p>
-    					<div id="chart_div" style="width: 550px; height: 400px;"></div>
+    					<div id="chart_div" style="height:400px;width:300px;"></div><br>
               <p>Feel free to <%= link_to "Search", vehicles_path %> another or if you would like to correct or enhance our results <%= link_to "Submit", new_vehicle_path %> a Record</p>
   				  </section>
 			    </div>
