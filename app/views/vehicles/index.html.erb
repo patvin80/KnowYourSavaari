@@ -2,6 +2,22 @@
   jQuery(function() {
     $("#home").addClass("current-page-item");
     $("#about").removeClass("current-page-item");
+    $('.default-value').each(function() {
+        var default_value = this.value;
+        $(this).css('color', '#666'); // this could be in the style sheet instead
+        $(this).focus(function() {
+            if(this.value == default_value) {
+                this.value = '';
+                $(this).css('color', '#333');
+            }
+        });
+        $(this).blur(function() {
+            if(this.value == '') {
+                this.value = default_value;
+                $(this).css('color', '#666');
+            }
+        });
+    });
   });
 </script> 
   <div id="banner-wrapper">
@@ -27,10 +43,10 @@
               <%= form_for(@vehicle, :url => search_path, :method => :post) do |f|  %>
                 <div class="field">
                   <label style="margin-bottom:3px; float:none;">Vehicle Plate: </label><br/>
-                    <%= f.text_field :state_code, :size=>"2*10", :style => "text-transform:uppercase" %> 
-                    <%= f.text_field :state_number, :size=>"2*10" %> 
-                    <%= f.text_field :plate_letter, :size=>"2*10", :style => "text-transform:uppercase" %> 
-                    <%= f.text_field :plate_number, :size=>"3*10" %><br/>
+                    <%= f.text_field :state_code, :size=>"2*10", :style => "text-transform:uppercase", :class => "default-value", :value => "MH" %> 
+                    <%= f.text_field :state_number, :size=>"2*10", :class => "default-value", :value => "04" %> 
+                    <%= f.text_field :plate_letter, :size=>"2*10", :style => "text-transform:uppercase", :class => "default-value", :value => "A" %> 
+                    <%= f.text_field :plate_number, :size=>"4*10", :class => "default-value", :value => "3385" %><br/>
                 </div>
                 <div class="actions">
                   <%= f.submit "Search", :class => "button" %>

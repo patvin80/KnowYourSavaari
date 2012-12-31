@@ -223,4 +223,16 @@
 		    margin-top: 20px;
 		}
 
+		span.hide {
+			font-size: 14px;
+			margin-left: 20px;
+			
+
+		}
+
+		span.required
+		{
+			color: red;
+		}
+
 

@@ -16,7 +16,20 @@
     </noscript>
     <%= javascript_include_tag "jquery" %>
     <script src="../assets/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI.theme=none&amp;mobileUI.titleBarHeight=55&amp;mobileUI.openerWidth=66"></script>
+	<script type="text/javascript">
 
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-37338430-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
 	</head>
 	<body>
 	<!-- ********************************************************* -->

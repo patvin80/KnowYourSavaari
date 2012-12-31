@@ -395,15 +395,19 @@
 			{
 				_body.addClass('is-mobile');
 				if ($('#chart_div') != 'undefined')
-					{
-						$('#chart_div').width(400);
-						$('#chart_div').height(250);
-						$('#chart_div').css("margin-left", "-95px");
-					}
+				{
+					$('#chart_div').width(400);
+					$('#chart_div').height(250);
+					$('#chart_div').css("margin-left", "-95px");
+				}
 				if ($('.label') != 'undefined')
-					{
-						$('.label').css("float", "none");
-					}
+				{
+					$('.label').css("float", "none");
+				}
+				if ($('.hide') != 'undefined')
+				{
+					$('.hide').css("margin-left", "10px");
+				}
 			}
 			jQuery('.5grid-layout').addClass('5grid'); 
 		});

@@ -33,22 +33,25 @@
                   </div>
                 <% end %>
                 <h2>Submit Record</h2>
+                <span class="hide required"> Red indicates required</span>
                 <div class="field">
                   <label class="label">Vehicle Plate: </label>
-                    <%= f.text_field :state_code, :size=>"2*10", :style => "text-transform:uppercase" %> 
-                    <%= f.text_field :state_number, :size=>"2*10" %> 
-                    <%= f.text_field :plate_letter, :size=>"2*10", :style => "text-transform:uppercase" %> 
-                    <%= f.text_field :plate_number, :size=>"3*10" %><br/>
+                    <%= f.text_field :state_code, :size=>"2*10", :style => "text-transform:uppercase" %> -  
+                    <%= f.text_field :state_number, :size=>"2*10" %> -
+                    <%= f.text_field :plate_letter, :size=>"2*10", :style => "text-transform:uppercase" %> - 
+                    <%= f.text_field :plate_number, :size=>"3*10" %> <span class="hide required">*e.g. MH-04-A-3385</span>
                 </div>
                   <%= f.fields_for :vehicle_inspections do |vi_form| %>
                     <div class="field">
-                      <label class="label">Is Current?:</label> <%= vi_form.check_box :is_current %>
+                      <label class="label">Is Current?:</label> 
+                        <%= vi_form.radio_button :is_current, "1", {:checked => true} %>Yes
+                        <%= vi_form.radio_button :is_current, "0" %>No <span class="hide required" style="margin-left:128px">* Inspection Status</span>
+                    </div> 
+                    <div class="field">
+                      <label class="label">Expiry:</label>  <%= vi_form.text_field :expiration_date, :size=>"27", :id=>"datepicker" %><span class="hide"> *Expiration Date of CNG Certification (optional)</span>    
                     </div>
                     <div class="field">
-                      <label class="label">Expiry:</label>  <%= vi_form.text_field :expiration_date, :size=>"24", :id=>"datepicker" %>   
-                    </div>
-                    <div class="field">
-                      <label class="label">Agency:</label>  <%= vi_form.text_field :inspection_agency, :size=>"24" %>   
+                      <label class="label">Agency:</label>  <%= vi_form.text_field :inspection_agency, :size=>"27" %><span class="hide"> *CNG Certification Agency (optional)</span>   
                     </div>
                   <% end %>
                 <div class="actions" style="float:right">
@@ -68,13 +71,13 @@
                 </ul>
               </section>
               <section>
-              <h2>CNG Service Providers Link</h2>
+              <h2>CNG Service Providers Link (TBA)</h2>
               <div class="5grid">
                 <div class="row">
                   <div class="6u">
                     <ul class="link-list">
-                      <li><a href="www.mecelec.in" target="_blank">Mec Elec Pvt Ltd</a></li>
-                      <li><a href="www.mecelec.in" target="_blank">Gascyl</a></li>
+                      <li><a href="#" target="_blank">Agency 1</a></li>
+                      <li><a href="#" target="_blank">Agency 2</a></li>
                     </ul>
                   </div>
                 </div>
