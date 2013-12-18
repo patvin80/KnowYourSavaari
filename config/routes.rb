@@ -4,6 +4,7 @@ KnowYourSavaari::Application.routes.draw do
   resources :vehicles
 
   match '/about' => 'pages#about'
+  match '/time' => 'pages#time'
 
   post 'vehicles/search' => 'vehicles#search', :as => :search
   # The priority is based upon order of creation:
