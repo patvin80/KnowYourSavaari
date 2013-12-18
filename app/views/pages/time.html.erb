@@ -1,17 +1,39 @@
     <script type="text/javascript">
-
+var hourvalue ;
+var minvalue;
         jQuery(function() {
 
           $("#timeset").click(function (){
-            var hourvalue = $('#hours').val();
-            var minvalue = $('#mins').val();
+            $("h3").hide();
+
+            hourvalue = getRandomInt (1, 12);
+            minvalue = getRandomInt (0, 3) * 15;
+            $('#hours').val(hourvalue);
+            $('#mins').val(minvalue);
             setClockToTime(hourvalue, minvalue, 0);
+            $("#showAnswer").show();
+          });
+
+          $("#showAnswer").click(function (){
+            $("h3").show();
+            $("h3").text("Hour " + hourvalue + " : " + minvalue + " Mins");
           });
 
         $("h1").hide();
+        $("h3").hide();
+        hourvalue = getRandomInt (1, 12);
+        minvalue = getRandomInt (0, 3) * 15;
+        $('#hours').val(hourvalue);
+        $('#mins').val(minvalue);
+        setClockToTime(hourvalue, minvalue, 0);
+        $("h3").text("Hour " + hourvalue + " : " + minvalue + " Mins");
         $("#header-wrapper").hide();
         $("#mobileUI-site-titlebar").hide();
         });
+
+        function getRandomInt (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
 
         function setClockToTime (setHour, setMin, setSeconds) {
 
@@ -52,9 +74,9 @@
                     <li id="min"></li>
                 </ul>
                 <div id="play" style="text-align:center;" >
-                  Hours: <input type="range" id="hours" min="1" max="12"> : 
-                  <input type="range" id="mins" min="0" max="60" step="15"> Mins <br/>
+                  <h3 style="font-size:30px;"></h3> <br/>
                   <input type='button' class="button" id="timeset" value="Play Again" />
+                  <input type='button' class="button" id="showAnswer" value="Answer" />
                 </div>
             </section>
           </div>
