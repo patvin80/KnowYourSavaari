@@ -123,39 +123,39 @@
 
 #clock {
         	position: relative;
-        	width: 200px;
-        	height: 200px;
-        	margin: 0px auto 0 60px;
-        	background: url(images/clockface_mobile.jpg);
+        	width: 600px;
+        	height: 600px;
+        	margin: 20px auto 0 -35px;
+        	background: url(images/clockface.jpg);
         	list-style: none;
         	}
 
         #sec, #min, #hour {
         	position: absolute;
-        	width: 10px;
-        	height: 200px;
+        	width: 30px;
+        	height: 600px;
         	top: 0px;
-        	left: 95px;
+        	left: 285px;
         	}
 
         #sec {
-        	background: url(images/sechand_mobile.png);
+        	background: url(images/sechand.png);
         	z-index: 3;
            	}
 
         #min {
-        	background: url(images/minhand_mobile.png);
+        	background: url(images/minhand.png);
         	z-index: 2;
            	}
 
         #hour {
-        	background: url(images/hourhand_mobile.png);
+        	background: url(images/hourhand.png);
         	z-index: 1;
            	}
         #play
         {
         	text-align:center;
-        	width:320px;
+        	width:580px;
         }
         #hours
         {
