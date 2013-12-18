@@ -2,15 +2,15 @@
 
         $(document).ready(function() {
 
-      $("#timeset").click(function (){
-        var hourvalue = $('#hours').val();
-        var minvalue = $('#mins').val();
-        setClockToTime(hourvalue, minvalue, 0);
-      });
+          $("#timeset").click(function (){
+            var hourvalue = $('#hours').val();
+            var minvalue = $('#mins').val();
+            setClockToTime(hourvalue, minvalue, 0);
+          });
 
-      $("h1").hide();
-      $("#header-wrapper").hide();
-            $("#mobileUI-site-titlebar").hide();
+        $("h1").hide();
+        $("#header-wrapper").hide();
+        $("#mobileUI-site-titlebar").hide();
         });
 
         function setClockToTime (setHour, setMin, setSeconds) {
