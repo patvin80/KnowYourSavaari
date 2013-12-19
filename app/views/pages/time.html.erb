@@ -7,7 +7,7 @@ var minvalue;
             $("h3").hide();
 
             hourvalue = getRandomInt (1, 12);
-            minvalue = getRandomInt (0, 3) * 15;
+            minvalue = getRandomInt (0, 11) * 5;
             $('#hours').val(hourvalue);
             $('#mins').val(minvalue);
             setClockToTime(hourvalue, minvalue, 0);
