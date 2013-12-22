@@ -175,7 +175,7 @@ var hiddenMonth1, hiddenMonth2;
             var seg_color = new Array();
             for (var i = 0; i < len; i++)
                 seg_color.push( colors [ segments[i].hashCode().mod(colorLen) ] );
-
+            seg_color[0] = colors[8];
             wheel.seg_color = seg_color;
 
             wheel.draw();
@@ -198,15 +198,15 @@ var hiddenMonth1, hiddenMonth2;
             var centerY = wheel.centerY;
             var size = wheel.size;
 
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 7;
             ctx.strokeStyle = '#000000';
-            ctx.fillStyle = '#669933';
+            ctx.fillStyle = '#FF0066';
 
             ctx.beginPath();
 
-            ctx.moveTo(centerX + size - 40, centerY);
-            ctx.lineTo(centerX + size + 20, centerY - 10);
-            ctx.lineTo(centerX + size + 20, centerY + 10);
+            ctx.moveTo(centerX + size - 15, centerY);
+            ctx.lineTo(centerX + size + 20, centerY - 15);
+            ctx.lineTo(centerX + size + 20, centerY + 15);
             ctx.closePath();
 
             ctx.stroke();
@@ -217,7 +217,7 @@ var hiddenMonth1, hiddenMonth2;
             // Now draw the winning name
             ctx.textAlign = "left";
             ctx.textBaseline = "middle";
-            ctx.fillStyle = '#669933';
+            ctx.fillStyle = '#FF0066';
             ctx.font = "2em Arial";
             //ctx.fillText(wheel.segments[i], centerX + size + 25, centerY);
             winningIndex = i;
