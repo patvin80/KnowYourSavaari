@@ -10,4 +10,10 @@ class PagesController < ApplicationController
 
   def time
   end
+
+	def months
+  end
+
+  def days
+  end
 end

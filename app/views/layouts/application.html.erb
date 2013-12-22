@@ -15,6 +15,7 @@
     <%= stylesheet_link_tag    "style-desktop.css" %>
     </noscript>
     <%= javascript_include_tag "jquery" %>
+	<%= javascript_include_tag "jquery.tinysort" %>
     <script src="../assets/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI.theme=none&amp;mobileUI.titleBarHeight=55&amp;mobileUI.openerWidth=66"></script>
 	<script type="text/javascript">
 
@@ -42,6 +43,9 @@
 							<nav class="mobileUI-site-nav">
 								<%= link_to 'Homepage', vehicles_path , :id => "home", :class => "current-page-item" %>
 								<%= link_to 'About', about_path, :id => "about" %>
+								<%= link_to 'Time', time_path , :id => "time" %>
+								<%= link_to 'Week', days_path, :id => "days" %>
+								<%= link_to 'Month', months_path, :id => "months" %>								
 							</nav>
 						</header>
 					</div>

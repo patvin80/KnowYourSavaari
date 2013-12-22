@@ -27,8 +27,14 @@ var minvalue;
         $('#mins').val(minvalue);
         setClockToTime(hourvalue, minvalue, 0);
         $("h3").text("Hour " + hourvalue + " : " + minvalue + " Mins");
-        $("#header-wrapper").hide();
-        $("#mobileUI-site-titlebar").hide();
+ //       $("#header-wrapper").hide();
+//        $("#mobileUI-site-titlebar").hide();
+        $("#mobileUI-site-title").text("Time Teacher");
+        $(".mobileUI-site-nav-link").each(function(){
+            if ($(this).text() == "Homepage" || $(this).text() == "About"){
+                $(this).hide();
+            }
+        });
         });
 
         function getRandomInt (min, max) {
