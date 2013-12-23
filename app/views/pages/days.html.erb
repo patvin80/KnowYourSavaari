@@ -448,8 +448,13 @@ var hiddenMonth1, hiddenMonth2;
         "6"  : "Friday",
         "7"  : "Saturday"
     };
-        wheel.init();
-
+    var wheelsize = ($(".middle-content").width() - 20 )/ 2;
+        wheel.init({
+            size : wheelsize,
+            centerX : $(".middle-content").width() / 2,
+            centerY : $(".middle-content").height() / 2 - 40,
+        });
+        
         var segments = new Array();
          $.each(venues, function(key, item) { 
             segments.push( item );
