@@ -175,7 +175,7 @@ var hiddenMonth1, hiddenMonth2;
             var seg_color = new Array();
             for (var i = 0; i < len; i++)
                 seg_color.push( colors [ segments[i].hashCode().mod(colorLen) ] );
-            seg_color[0] = colors[8];
+            seg_color[10] = colors[2];
             wheel.seg_color = seg_color;
 
             wheel.draw();
@@ -204,9 +204,9 @@ var hiddenMonth1, hiddenMonth2;
 
             ctx.beginPath();
 
-            ctx.moveTo(centerX + size - 40, centerY);
-            ctx.lineTo(centerX + size + 20, centerY - 10);
-            ctx.lineTo(centerX + size + 20, centerY + 10);
+            ctx.moveTo(centerX + size - 15, centerY);
+            ctx.lineTo(centerX + size + 20, centerY - 15);
+            ctx.lineTo(centerX + size + 20, centerY + 15);
             ctx.closePath();
 
             ctx.stroke();
