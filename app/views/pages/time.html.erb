@@ -5,7 +5,7 @@ var minvalue;
 
           $("#timeset").click(function (){
             $("h3").hide();
-
+            $("#clock").css({"background":"url(assets/images/clockface_mobile.jpg)"}); 
             hourvalue = getRandomInt (1, 12);
             minvalue = getRandomInt (0, 11) * 5;
             $('#hours').val(hourvalue);
@@ -15,11 +15,15 @@ var minvalue;
           });
 
           $("#showAnswer").click(function (){
+            
             $("h3").show();
             $("h3").text("Hour " + hourvalue + " : " + minvalue + " Mins");
             var song = $("#sound").get(0);
-            song.setAttribute('src',"http://speechutil.com/convert/ogg?text='Theclocksaysits'"+hourvalue+minvalue )
+            song.setAttribute('src',"http://speechutil.com/convert/ogg?text='The clock says its'"+hourvalue +"hours" + minvalue + "minutes");
             song.play();
+            explainClock();
+            
+
 
           });
 
@@ -71,6 +75,13 @@ var minvalue;
                     var song = $("#sound").get(0);
                     song.setAttribute('src',"http://speechutil.com/convert/ogg?text='What Time Is It?'")
                     song.play();
+
+        }
+
+        function explainClock()
+        {
+            //background: url(images/hourhand_mobile.png);
+            $("#clock").css({"background":"url(assets/images/clockface_explain.jpg)"}); 
 
         }
 
