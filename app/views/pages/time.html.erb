@@ -1,9 +1,11 @@
     <script type="text/javascript">
 var hourvalue ;
 var minvalue;
+var timer1;
         jQuery(function() {
 
           $("#timeset").click(function (){
+            $("#star").hide();
             $("h3").hide();
             if ($("#mobileUI-site-content").length)
                 $("#clock").css({"background":"url(assets/images/clockface_mobile.jpg)"}); 
@@ -27,12 +29,32 @@ var minvalue;
             song.setAttribute('src',"http://speechutil.com/convert/ogg?text='The clock says its'"+hourvalue +"hours" + minvalue + "minutes");
             song.play();
             explainClock();
-            
+            $("#star").show();
+            var clap = $("#clap").get(0);
+            clap.setAttribute('src',"http://soundjax.com/reddo/82925%5ECLAP.mp3");
 
+            var x;
+            timer1 = setInterval(function() {
+                if (x==0){
+                    $("#star").addClass("nostar");
+                    $("#star").removeClass("star");
+                    x = 1;
+                } 
+                else
+                {
+                    $("#star").addClass("star");
+                    $("#star").removeClass("nostar");
+                    x = 0;  
+                }
+            }, 500);
+            setTimeout("clap.play()", 2500);
 
           });
 
         $("h1").hide();
+        $("#star").hide();
+        if (timer1 != 'undefined')
+                    window.clearInterval(timer1);
         $("h3").hide();
         hourvalue = getRandomInt (1, 12);
         minvalue = getRandomInt (0, 3) * 15;
@@ -103,12 +125,15 @@ var minvalue;
           <div class="6u ">
             <section class="middle-content">
               <h2 style="text-align:center;font-size:40px;">What Time Is IT?</h2>
+                <div id="star" class="star"></div>
+
                 <ul id="clock">
                     <li id="sec"></li>
                     <li id="hour"></li>
                     <li id="min"></li>
                 </ul>
                 <audio id="sound" src=""></audio>
+                <audio id="clap" src=""></audio>
                 <div id="play" style="text-align:center;" >
                   <h3 style="font-size:30px;"></h3> <br/>
                   <input type='button' class="button" id="timeset" value="Play Again" />

@@ -25,6 +25,10 @@
 <script type="text/javascript">
 var winningIndex;
 var hiddenMonth1, hiddenMonth2;
+var hiddenMonth1, hiddenMonth2, hiddenMonth1Key, hiddenMonth2Key;
+var hiddenMonth1Angle, hiddenMonth2Angle;
+var hiddenMonth1LastAngle, hiddenMonth2LastAngle;
+var timer1, timer2;
     // WHEEL!
     var wheel = {
 
@@ -59,6 +63,11 @@ var hiddenMonth1, hiddenMonth2;
         centerY : 150,
 
         spin : function() {
+            if (timer1 != 'undefined')
+                window.clearInterval(timer1);   
+            if (timer2 != 'undefined')
+                window.clearInterval(timer2);  
+            $("#star").hide();                             
             var segments = new Array();
              $.each(venues, function(key, item) { 
                 segments.push( item );
@@ -114,13 +123,25 @@ var hiddenMonth1, hiddenMonth2;
                 wheel.drawNeedle();
                 var song = $("#selectedMonth").get(0);
                 song.play();
-                // var question1 = $("#question1").get(0);
-                // question1.setAttribute("src","http://speechutil.com/convert/ogg?text='What month comes before " + wheel.segments[winningIndex] + "'");
-                // question1.play();
-                // var question2 = $("#question2").get(0);
-                // question2.setAttribute("src","http://speechutil.com/convert/ogg?text='What month comes after " + wheel.segments[winningIndex] + "'");
-                // question2.play();
+                var segmentPopSound = $("#segmentPop").get(0);
+                segmentPopSound.setAttribute('src',"http://soundjax.com/reddo/24372%5Epop2.mp3");                
                 $("#showAnswer").show();
+                var x;
+                timer1 = setInterval(function() {
+                    if(x == 0) {
+                        wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FF9900");
+                        wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#FF9900");
+                        segmentPopSound.play();
+                        x= 1;
+                    }
+                    else{
+                        wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FFff00");
+                        wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#ffff00"); 
+                        segmentPopSound.play();
+                        x=0;
+                    } 
+                }, 1000);
+                
             }
 
             /*
@@ -234,6 +255,45 @@ var hiddenMonth1, hiddenMonth2;
 
         },
 
+        drawColorSegment : function(key, lastAngle, angle, color) {
+            var ctx = wheel.canvasContext;
+            var centerX = wheel.centerX;
+            var centerY = wheel.centerY;
+            var size = wheel.size;
+
+            var segments = wheel.segments;
+            var len = wheel.segments.length;
+            var colors = wheel.seg_color;
+
+            var value = segments[key];
+            
+            ctx.save();
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            // Start in the centre
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, size, lastAngle, angle, false); // Draw a arc around the edge                
+            ctx.lineTo(centerX, centerY); // Now draw a line back to the centre
+
+            // Clip anything that follows to this area
+            //ctx.clip(); // It would be best to clip, but we can double performance without it
+            ctx.closePath();
+
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.stroke();
+
+            // Now draw the text
+            ctx.save(); // The save ensures this works on Android devices
+            ctx.translate(centerX, centerY);
+            ctx.rotate((lastAngle + angle) / 2);
+
+            ctx.fillStyle = '#000000';
+            ctx.restore();
+
+            ctx.restore();
+        },                
+
         drawSegment : function(key, lastAngle, angle) {
             var ctx = wheel.canvasContext;
             var centerX = wheel.centerX;
@@ -251,7 +311,21 @@ var hiddenMonth1, hiddenMonth2;
 
             // Start in the centre
             ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, size, lastAngle, angle, false); // Draw a arc around the edge
+            if(value=="")
+            {
+                ctx.arc(centerX, centerY, size, lastAngle, angle, false); // Draw a arc around the edge  
+                if (key==hiddenMonth1Key){
+                    hiddenMonth1Angle = angle;
+                    hiddenMonth1LastAngle = lastAngle;
+                }
+                if (key==hiddenMonth2Key){
+                    hiddenMonth2Angle = angle;
+                    hiddenMonth2LastAngle = lastAngle;
+                }              
+            }
+            else
+                ctx.arc(centerX, centerY, size, lastAngle, angle, false); // Draw a arc around the edge
+
             ctx.lineTo(centerX, centerY); // Now draw a line back to the centre
 
             // Clip anything that follows to this area
@@ -282,14 +356,27 @@ var hiddenMonth1, hiddenMonth2;
             var angleCurrent = wheel.angleCurrent;
             var lastAngle    = angleCurrent;
             if (key == 11)
-            {   
+            {
+                hiddenMonth1Key = key-1;
+                hiddenMonth2Key = 0;  
                 hiddenMonth1 = wheel.segments[key-1];
                 hiddenMonth2 = wheel.segments[0];
                 wheel.segments[0] = "";
                 wheel.segments[key-1] = "";
             }
+            else if (key == 0)
+            {   
+                hiddenMonth1Key = 11;
+                hiddenMonth2Key = key + 1;
+                hiddenMonth1 = wheel.segments[11];
+                hiddenMonth2 = wheel.segments[key+1];
+                wheel.segments[11] = "";
+                wheel.segments[key+1] = "";
+            }
             else
             {
+                hiddenMonth1Key = key-1;
+                hiddenMonth2Key = key+1;                
                 hiddenMonth1 = wheel.segments[key-1];
                 hiddenMonth2 = wheel.segments[key+1];
                 wheel.segments[key-1] = "";
@@ -499,7 +586,30 @@ var hiddenMonth1, hiddenMonth2;
         $("h1").hide();
         $("h3").hide();
         $("#showAnswer").hide();
+        $("#star").hide();   
+        if (timer2 != 'undefined')
+            window.clearInterval(timer2);     
           $("#showAnswer").click(function (){
+                if (timer1 != 'undefined')
+                    window.clearInterval(timer1);
+                var clap = $("#clap").get(0);
+                clap.setAttribute('src',"http://soundjax.com/reddo/82925%5ECLAP.mp3");
+                $("#star").show();
+                var x;
+                timer2 = setInterval(function() {
+                    if (x==0){
+                        $("#star").addClass("nostar");
+                        $("#star").removeClass("star");
+                        x = 1;
+                    } 
+                    else
+                    {
+                        $("#star").addClass("star");
+                        $("#star").removeClass("nostar");
+                        x = 0;  
+                    }
+                }, 500);
+                setTimeout("clap.play()", 500);
                 wheel.drawWheelWithShowSegment();
                 wheel.drawNeedle();
                 $(this).hide();
@@ -512,8 +622,12 @@ var hiddenMonth1, hiddenMonth2;
         <div class="row main-row">
           <div class="6u ">
             <section class="middle-content">
-              <h2 style="text-align:center;font-size:40px;">Month</h2>
-                <audio id="selectedMonth" src=""></audio>                
+              <h2 style="text-align:center;font-size:40px;">Months of the Year</h2>
+                <div id="star" class="star"></div>
+                <audio id="clap" src=""></audio>                
+
+                <audio id="selectedMonth" src=""></audio>
+                <audio id="segmentPop" src=""></audio>                
                 <div id="wheel">
                     <canvas id="canvas" width="600" height="300"></canvas>
                 </div>

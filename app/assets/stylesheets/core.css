@@ -165,3 +165,18 @@
         {
         	width: 100px;
         }
+.star {
+            width: 600px;
+            height: 50px;
+            margin: 20px auto 0 -35px;
+            position: relative;
+            background: url(images/gold-star.png);
+            list-style: none;
+            }
+.star {
+            width: 600px;
+            height: 50px;
+            margin: 20px auto 0 -35px;
+            position: relative;
+            list-style: none;
+            }            
