@@ -112,6 +112,14 @@ var hiddenMonth1, hiddenMonth2;
 
                 wheel.drawWheelWithHideSegment(winningIndex);
                 wheel.drawNeedle();
+                var song = $("#selectedMonth").get(0);
+                song.play();
+                // var question1 = $("#question1").get(0);
+                // question1.setAttribute("src","http://speechutil.com/convert/ogg?text='What month comes before " + wheel.segments[winningIndex] + "'");
+                // question1.play();
+                // var question2 = $("#question2").get(0);
+                // question2.setAttribute("src","http://speechutil.com/convert/ogg?text='What month comes after " + wheel.segments[winningIndex] + "'");
+                // question2.play();
                 $("#showAnswer").show();
             }
 
@@ -221,7 +229,8 @@ var hiddenMonth1, hiddenMonth2;
             ctx.font = "2em Arial";
             //ctx.fillText(wheel.segments[i], centerX + size + 25, centerY);
             winningIndex = i;
-
+            var song = $("#selectedMonth").get(0);
+            song.setAttribute("src","http://speechutil.com/convert/ogg?text='What month comes before and after " + wheel.segments[winningIndex] + "'");
 
         },
 
@@ -260,9 +269,11 @@ var hiddenMonth1, hiddenMonth2;
 
             ctx.fillStyle = '#000000';
             ctx.fillText(value.substr(0, 20), size / 2 + 20, 0);
+
             ctx.restore();
 
             ctx.restore();
+
         },
 
         drawWheelWithHideSegment : function(key) {
@@ -454,7 +465,7 @@ var hiddenMonth1, hiddenMonth2;
         "12" : "December"
     };
 
-    var wheelsize = ($(".middle-content").width() - 20 )/ 2;
+    var wheelsize = ($(".middle-content").width() - 45 )/ 2;
         wheel.init({
             size : wheelsize,
             centerX : $(".middle-content").width() / 2,
@@ -502,7 +513,7 @@ var hiddenMonth1, hiddenMonth2;
           <div class="6u ">
             <section class="middle-content">
               <h2 style="text-align:center;font-size:40px;">Month</h2>
-
+                <audio id="selectedMonth" src=""></audio>                
                 <div id="wheel">
                     <canvas id="canvas" width="600" height="300"></canvas>
                 </div>

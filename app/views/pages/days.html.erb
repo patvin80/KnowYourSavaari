@@ -113,8 +113,9 @@ var hiddenMonth1, hiddenMonth2;
                 wheel.drawWheelWithHideSegment(winningIndex);
                 wheel.drawNeedle();
                 $("#showAnswer").show();
+                var song = $("#selectedDay").get(0);
+                song.play();
             }
-
             /*
             // Display RPM
             var rpm = (wheel.angleDelta * (1000 / wheel.timerDelay) * 60) / (Math.PI * 2);
@@ -221,8 +222,8 @@ var hiddenMonth1, hiddenMonth2;
             ctx.font = "2em Arial";
             //ctx.fillText(wheel.segments[i], centerX + size + 25, centerY);
             winningIndex = i;
-
-
+            var song = $("#selectedDay").get(0);
+            song.setAttribute("src","http://speechutil.com/convert/ogg?text='What day comes before and after " + wheel.segments[winningIndex] + "'");
         },
 
         drawSegment : function(key, lastAngle, angle) {
@@ -448,7 +449,7 @@ var hiddenMonth1, hiddenMonth2;
         "6"  : "Friday",
         "7"  : "Saturday"
     };
-    var wheelsize = ($(".middle-content").width() - 20 )/ 2;
+    var wheelsize = ($(".middle-content").width() - 45 )/ 2;
         wheel.init({
             size : wheelsize,
             centerX : $(".middle-content").width() / 2,
@@ -499,6 +500,7 @@ var hiddenMonth1, hiddenMonth2;
                 <div id="wheel">
                     <canvas id="canvas" width="600" height="300"></canvas>
                 </div>
+                <audio id="selectedDay" src=""></audio>
                 <div id="play" style="text-align:center;" >
                   <h3 style="font-size:30px;"></h3> <br/>
                   <input type='button' class="button" id="showAnswer"  value="Answer" />

@@ -11,7 +11,7 @@ body { -webkit-text-size-adjust: none; }
 .do-5grid .do-1u, .do-5grid .do-2u, .do-5grid .do-3u, .do-5grid .do-4u, .do-5grid .do-5u, .do-5grid .do-6u, .do-5grid .do-7u, .do-5grid .do-8u, .do-5grid .do-9u, .do-5grid .do-10u, .do-5grid .do-11u, .do-5grid .do-12u { margin: 0.5% 0 0.5% 1%; }
 .\35 grid-flush .\31 u, .\35 grid-flush .\32 u, .\35 grid-flush .\33 u, .\35 grid-flush .\34 u, .\35 grid-flush .\35 u, .\35 grid-flush .\36 u, .\35 grid-flush .\37 u, .\35 grid-flush .\38 u, .\35 grid-flush .\39 u, .\35 grid-flush .\31 0u, .\35 grid-flush .\31 1u, .\35 grid-flush .\31 2u { float: none !important; width: 100% !important; margin: 1% 0 1% 0 !important; } 
 
- #clock {
+#clock {
         	position: relative;
         	width: 200px;
         	height: 200px;

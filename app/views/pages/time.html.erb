@@ -5,7 +5,11 @@ var minvalue;
 
           $("#timeset").click(function (){
             $("h3").hide();
-            $("#clock").css({"background":"url(assets/images/clockface_mobile.jpg)"}); 
+            if ($("#mobileUI-site-content").length)
+                $("#clock").css({"background":"url(assets/images/clockface_mobile.jpg)"}); 
+            else
+                $("#clock").css({"background":"url(assets/images/clockface.jpg)"}); 
+
             hourvalue = getRandomInt (1, 12);
             minvalue = getRandomInt (0, 11) * 5;
             $('#hours').val(hourvalue);
@@ -15,7 +19,8 @@ var minvalue;
           });
 
           $("#showAnswer").click(function (){
-            
+
+
             $("h3").show();
             $("h3").text("Hour " + hourvalue + " : " + minvalue + " Mins");
             var song = $("#sound").get(0);
@@ -81,8 +86,14 @@ var minvalue;
         function explainClock()
         {
             //background: url(images/hourhand_mobile.png);
-            $("#clock").css({"background":"url(assets/images/clockface_explain.jpg)"}); 
-
+            if ($("#mobileUI-site-content").length)
+                $("#clock").css({"background":"url(assets/images/clockface_explain_mobile.jpg)"}); 
+            else
+                $("#clock").css({"background":"url(assets/images/clockface_explain.jpg)"}); 
+            $("#min").hide();
+            //$("#hour").delay(3000).hide(0);
+            $("#min").delay(3000).show(0);
+            $("#hour").delay(6000).show(0);
         }
 
     </script>
