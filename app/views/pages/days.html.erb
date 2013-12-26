@@ -126,9 +126,11 @@ var timer1,timer2;
                 song.play();
                 song.addEventListener("ended", function() {
                     song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
+                    song.load();
                     song.play();
                     song.addEventListener("ended", function() {
                         song.setAttribute("src","");
+                        song.load();
                         song.play();
                     });
                 });
@@ -141,6 +143,7 @@ var timer1,timer2;
                         wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FF9900");
                         wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#FF9900");
                         wheel.drawInnerWheel();
+                        segmentPopSound.load();
                         segmentPopSound.play();
                         x= 1;
                     }
@@ -148,6 +151,7 @@ var timer1,timer2;
                         wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FFff00");
                         wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#ffff00"); 
                         segmentPopSound.play();
+                        segmentPopSound.load();
                         wheel.drawInnerWheel();
                         x=0;
                     } 
@@ -621,7 +625,8 @@ var timer1,timer2;
         $("#showAnswer").hide();
         $("#star").hide();   
         if (timer2 != 'undefined')
-            window.clearInterval(timer2);   
+            window.clearInterval(timer2);  
+
         $("#showAnswer").click(function (){
 
                 var clap = $("#clap").get(0);
