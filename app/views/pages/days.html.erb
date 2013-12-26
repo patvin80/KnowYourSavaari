@@ -23,19 +23,7 @@
     
     function playSong()
     {
-                        var song = $("#selectedDay").get(0);
-                song.load();
-                song.play();
-                song.addEventListener("ended", function() {
-                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
-                    song.load();
-                    song.play();
-                    song.addEventListener("ended", function() {
-                        song.setAttribute("src","");
-                        song.load();
-                        song.play();
-                    });
-                });
+
     }
 </script>
 <script type="text/javascript">
@@ -138,8 +126,22 @@ var timer1,timer2;
                 wheel.drawWheelWithHideSegment(winningIndex);
                 wheel.drawNeedle();
                 $("#showAnswer").show();
-                $("#talkToMe").click();
+                $("#talkToMe").show();
+                var song = $("#selectedDay").get(0);
+                song.load();
+                song.play();
+                song.addEventListener("ended", function() {
+                    $("#talkToMe").hide();
+                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
+                    song.load();
+                    song.play();
+                    song.addEventListener("ended", function() {
+                        song.setAttribute("src","");
+                        song.load();
+                        song.play();
 
+                    });
+                });
                 var segmentPopSound = $("#segmentPop").get(0);
                 segmentPopSound.setAttribute('src',"http://soundjax.com/reddo/24372%5Epop2.mp3");    
                 var x;
@@ -625,6 +627,7 @@ var timer1,timer2;
                 $(this).hide();
             }
         });
+
         $("h1").hide();
         $("h3").hide();
         $("#showAnswer").hide();
@@ -632,9 +635,9 @@ var timer1,timer2;
         if (timer2 != 'undefined')
             window.clearInterval(timer2);  
         $("#talkToMe").click(function () {playSong();});
-        //$("#talkToMe").hide();
+        $("#talkToMe").hide();
         $("#showAnswer").click(function (){
-
+                $("#talkToMe").hide();
                 var clap = $("#clap").get(0);
                 clap.setAttribute('src',"GB.mp3");
                 clap.addEventListener("ended", function() {
@@ -692,8 +695,8 @@ var timer1,timer2;
           <div class="6u ">
             <section class="middle-content">
               <h2 style="text-align:center;font-size:40px;">Days of the Week</h2>
-                <input type='button' class="button" id="talkToMe"  value="Talk" />
-                <div id="star" class="star"></div>
+
+                <div id="star" class="nostar"></div>
                 <audio id="clap" src=""></audio>                
                 <div id="wheel">
                     <canvas id="canvas" width="600" height="300"></canvas>
@@ -702,7 +705,8 @@ var timer1,timer2;
                 <audio id="segmentPop" src=""></audio>                
                 <div id="play" style="text-align:center;" >
                   <h3 style="font-size:30px;"></h3> <br/>
-                  <input type='button' class="button" id="showAnswer"  value="Answer" />
+                    <input type='button' class="button" id="talkToMe"  value="Ask Me" />
+                    <input type='button' class="button" id="showAnswer"  value="Answer" />
                 </div>
             </section>
           </div>

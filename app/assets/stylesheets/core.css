@@ -167,7 +167,7 @@
         }
 .star {
             width: 600px;
-            height: 50px;
+            height: 25px;
             margin: 20px auto 0 -35px;
             position: relative;
             background: url(images/gold-star.png);
@@ -175,8 +175,8 @@
             }
 .nostar {
             width: 600px;
-            height: 50px;
-            margin: 20px auto 0 -35px;
+            height: 25px;
+            margin: 20px auto 0 auto;
             position: relative;
             list-style: none;
             }            
