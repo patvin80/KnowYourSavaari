@@ -21,6 +21,22 @@
         return ((this%n)+n)%n;
     }
     
+    function playSong()
+    {
+                        var song = $("#selectedDay").get(0);
+                song.load();
+                song.play();
+                song.addEventListener("ended", function() {
+                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
+                    song.load();
+                    song.play();
+                    song.addEventListener("ended", function() {
+                        song.setAttribute("src","");
+                        song.load();
+                        song.play();
+                    });
+                });
+    }
 </script>
 <script type="text/javascript">
 var winningIndex;
@@ -122,19 +138,7 @@ var timer1,timer2;
                 wheel.drawWheelWithHideSegment(winningIndex);
                 wheel.drawNeedle();
                 $("#showAnswer").show();
-                var song = $("#selectedDay").get(0);
-                song.load();
-                song.play();
-                song.addEventListener("ended", function() {
-                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
-                    song.load();
-                    song.play();
-                    song.addEventListener("ended", function() {
-                        song.setAttribute("src","");
-                        song.load();
-                        song.play();
-                    });
-                });
+                $("#talkToMe").click();
 
                 var segmentPopSound = $("#segmentPop").get(0);
                 segmentPopSound.setAttribute('src',"http://soundjax.com/reddo/24372%5Epop2.mp3");    
@@ -627,7 +631,8 @@ var timer1,timer2;
         $("#star").hide();   
         if (timer2 != 'undefined')
             window.clearInterval(timer2);  
-
+        $("#talkToMe").click(function () {playSong();});
+        $("#talkToMe").hide();
         $("#showAnswer").click(function (){
 
                 var clap = $("#clap").get(0);
@@ -687,6 +692,7 @@ var timer1,timer2;
           <div class="6u ">
             <section class="middle-content">
               <h2 style="text-align:center;font-size:40px;">Days of the Week</h2>
+                <input type='button' class="button" id="talkToMe"  value="Talk" />
                 <div id="star" class="star"></div>
                 <audio id="clap" src=""></audio>                
                 <div id="wheel">
