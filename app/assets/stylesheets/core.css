@@ -173,7 +173,7 @@
             background: url(images/gold-star.png);
             list-style: none;
             }
-.star {
+.nostar {
             width: 600px;
             height: 50px;
             margin: 20px auto 0 -35px;
