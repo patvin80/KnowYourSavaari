@@ -123,6 +123,7 @@ var timer1,timer2;
                 wheel.drawNeedle();
                 $("#showAnswer").show();
                 var song = $("#selectedDay").get(0);
+                song.load();
                 song.play();
                 song.addEventListener("ended", function() {
                     song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
