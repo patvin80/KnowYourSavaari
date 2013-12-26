@@ -23,7 +23,21 @@
     
     function playSong()
     {
+                var song = $("#selectedDay").get(0);
+                song.load();
+                song.play();
+                song.addEventListener("ended", function() {
+                    $("#talkToMe").hide();
+                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
+                    song.load();
+                    song.play();
+                    song.addEventListener("ended", function() {
+                        song.setAttribute("src","");
+                        song.load();
+                        song.play();
 
+                    });
+                });
     }
 </script>
 <script type="text/javascript">
@@ -127,21 +141,7 @@ var timer1,timer2;
                 wheel.drawNeedle();
                 $("#showAnswer").show();
                 $("#talkToMe").show();
-                var song = $("#selectedDay").get(0);
-                song.load();
-                song.play();
-                song.addEventListener("ended", function() {
-                    $("#talkToMe").hide();
-                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
-                    song.load();
-                    song.play();
-                    song.addEventListener("ended", function() {
-                        song.setAttribute("src","");
-                        song.load();
-                        song.play();
-
-                    });
-                });
+                playSong();
                 var segmentPopSound = $("#segmentPop").get(0);
                 segmentPopSound.setAttribute('src',"http://soundjax.com/reddo/24372%5Epop2.mp3");    
                 var x;

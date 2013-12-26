@@ -20,6 +20,24 @@
     Number.prototype.mod = function(n) {
         return ((this%n)+n)%n;
     }
+
+    function playSong()
+    {
+        var song = $("#selectedMonth").get(0);
+        song.play();
+        song.addEventListener("ended", function() {
+            $("#talkToMe").hide();
+            song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
+            song.play();
+            song.addEventListener("ended", function() {
+                song.setAttribute("src","");
+                song.play();
+            });
+        });
+
+        var segmentPopSound = $("#segmentPop").get(0);
+        segmentPopSound.setAttribute('src',"http://soundjax.com/reddo/24372%5Epop2.mp3");                
+    }
     
 </script>
 <script type="text/javascript">
@@ -121,20 +139,11 @@ var timer1, timer2;
 
                 wheel.drawWheelWithHideSegment(winningIndex);
                 wheel.drawNeedle();
-                var song = $("#selectedMonth").get(0);
-                song.play();
-                song.addEventListener("ended", function() {
-                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
-                    song.play();
-                    song.addEventListener("ended", function() {
-                        song.setAttribute("src","");
-                        song.play();
-                    });
-                });
 
-                var segmentPopSound = $("#segmentPop").get(0);
-                segmentPopSound.setAttribute('src',"http://soundjax.com/reddo/24372%5Epop2.mp3");                
-                $("#showAnswer").show();
+
+
+                $("#talkToMe").show();
+                playSong();
                 var x;
                 timer1 = setInterval(function() {
                     if(x == 0) {
@@ -632,10 +641,13 @@ var timer1, timer2;
         $("h1").hide();
         $("h3").hide();
         $("#showAnswer").hide();
-        $("#star").hide();   
+        $("#star").hide(); 
+        $("#talkToMe").click(function () {playSong();});
+        $("#talkToMe").hide();  
         if (timer2 != 'undefined')
             window.clearInterval(timer2);     
           $("#showAnswer").click(function (){
+                $("#talkToMe").hide();
                 if (timer1 != 'undefined')
                     window.clearInterval(timer1);
                 var clap = $("#clap").get(0);
@@ -703,6 +715,7 @@ var timer1, timer2;
                 </div>
                 <div id="play" style="text-align:center;" >
                   <h3 style="font-size:30px;"></h3> <br/>
+                    <input type='button' class="button" id="talkToMe"  value="Ask Me" />
                   <input type='button' class="button" id="showAnswer"  value="Answer" />
                 </div>
             </section>
