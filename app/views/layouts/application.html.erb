@@ -28,7 +28,12 @@
 	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
-
+        jQuery(function() {
+            if (!($("#mobileUI-site-content").length))
+            {
+            	$(".horizontalMenu").hide();
+            }
+        });
 	</script>
 	
 	</head>
@@ -58,7 +63,6 @@
 			<div class="5grid-layout">
 				<div class="row">
 					<div class="12u">
-
 						<div id="copyright">
 							&copy; <a href="http://www.amoghconsultants.com">Amogh Consultants Inc.</a> All rights reserved. | Design: <a href="http://html5up.net">HTML5 Up!</a> | Images: <a href="http://fotogrph.com">Fotogrph</a>
 						</div>

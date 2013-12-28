@@ -688,6 +688,11 @@ var timer1,timer2;
         <div class="row main-row">
           <div class="6u ">
             <section class="middle-content">
+            <ul class="horizontalMenu">
+                <li class="horizontalMenu"><%= link_to 'Time', time_path , :id => "time" %></li>
+                <li class="horizontalMenu"><%= link_to 'Week', days_path, :id => "days", :class => "current-page-item" %></li>
+                <li class="horizontalMenu"><%= link_to 'Month', months_path, :id => "months" %></li>
+            </ul>
               <h2 style="text-align:center;font-size:40px;">Days of the Week</h2>
 
                 <div id="star" class="nostar"></div>

@@ -139,7 +139,13 @@ var timer1;
         <div class="row main-row">
           <div class="6u ">
             <section class="middle-content">
+                <ul class="horizontalMenu">
+                    <li class="horizontalMenu"><%= link_to 'Time', time_path , :id => "time", :class => "current-page-item" %></li>
+                    <li class="horizontalMenu"><%= link_to 'Week', days_path, :id => "days" %></li>
+                    <li class="horizontalMenu"><%= link_to 'Month', months_path, :id => "months" %></li>
+                </ul>                
               <h2 style="text-align:center;font-size:40px;">What Time Is IT?</h2>
+
                 <div id="star" class="star"></div>
 
                 <ul id="clock">
