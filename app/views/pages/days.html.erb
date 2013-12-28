@@ -23,21 +23,18 @@
     
     function playSong()
     {
-                var song = $("#selectedDay").get(0);
-                song.load();
+        var song = $("#selectedDay").get(0);
+        song.play();
+        song.addEventListener("ended", function() {
+            $("#talkToMe").hide();
+            song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
+            song.play();
+            song.addEventListener("ended", function() {
+                song.setAttribute("src","");
                 song.play();
-                song.addEventListener("ended", function() {
-                    $("#talkToMe").hide();
-                    song.setAttribute("src",wheel.segments[winningIndex] + ".mp3");
-                    song.load();
-                    song.play();
-                    song.addEventListener("ended", function() {
-                        song.setAttribute("src","");
-                        song.load();
-                        song.play();
 
-                    });
-                });
+            });
+        });
     }
 </script>
 <script type="text/javascript">
@@ -146,19 +143,16 @@ var timer1,timer2;
                 segmentPopSound.setAttribute('src',"http://soundjax.com/reddo/24372%5Epop2.mp3");    
                 var x;
                 timer1 = setInterval(function() {
+                    segmentPopSound.play();
                     if(x == 0) {
                         wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FF9900");
                         wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#FF9900");
                         wheel.drawInnerWheel();
-                        segmentPopSound.load();
-                        segmentPopSound.play();
                         x= 1;
                     }
                     else{
                         wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FFff00");
                         wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#ffff00"); 
-                        segmentPopSound.play();
-                        segmentPopSound.load();
                         wheel.drawInnerWheel();
                         x=0;
                     } 

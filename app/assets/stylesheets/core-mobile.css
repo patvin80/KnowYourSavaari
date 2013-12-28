@@ -54,6 +54,12 @@ body { -webkit-text-size-adjust: none; }
         #mins
         {
         	width: 100px;
+        }
+
+        #canvas
+        {
+            width: 600px;
+            height: 300px;
         }       
 
 .star {

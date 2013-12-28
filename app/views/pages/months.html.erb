@@ -140,24 +140,22 @@ var timer1, timer2;
                 wheel.drawWheelWithHideSegment(winningIndex);
                 wheel.drawNeedle();
 
-
-
                 $("#talkToMe").show();
                 playSong();
                 var x;
                 timer1 = setInterval(function() {
+                    segmentPopSound.play();
                     if(x == 0) {
                         wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FF9900");
                         wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#FF9900");
                         wheel.drawInnerWheel();
-                        segmentPopSound.play();
                         x= 1;
                     }
                     else{
                         wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FFff00");
                         wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#ffff00"); 
                         wheel.drawInnerWheel();
-                        segmentPopSound.play();
+
                         x=0;
                     } 
                 }, 1000);
