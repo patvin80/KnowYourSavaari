@@ -16,4 +16,7 @@ class PagesController < ApplicationController
 
   def days
   end
+
+  def superbowl
+  end
 end

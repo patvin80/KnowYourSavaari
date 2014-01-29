@@ -1,0 +1,101 @@
+
+<script type="text/javascript">
+	 jQuery(function() {
+	 		buildTable(11, 11);
+	 		$("#tbl").find("td").each(function() {
+ 				$(this).text("u");
+				$(this).hover(function(){
+					$(this).addClass("circle");
+				}, function(){
+					$(this).removeClass("circle");
+				});
+	 		})
+
+	 		var $lst = $('#playerList');
+			$("#btnID").on("click",function() {    
+			    var $txtBox = $("#txtBox");
+			    var $li = $('<li/>').html($txtBox.val());           
+			    $lst.append($li).listview('refresh'); 
+			    $txtBox.val("");
+			 });
+	 	});
+
+	 function buildTable(rows, cols)
+	 {
+		var table = $('<table id="tbl" class="t_data"><tbody>');
+		for(var r = 0; r < rows; r++)
+		{
+		    var tr = $('<tr>');
+		    for (var c = 0; c < cols; c++)
+		        $('<td>c</td>').appendTo(tr); //fill in your cells with something meaningful here
+		    tr.appendTo(table);
+		}
+		table.appendTo('body');
+		$("#table_div").append(table);
+
+	 }
+</script>
+
+
+    <div id="main">
+      <div class="5grid-layout">
+        <div class="row main-row">
+          <div class="8u ">
+            <section class="middle-content">
+              <h2 style="text-align:center;font-size:40px;">SuperBowl</h2>
+                <div id="table_div"></div>
+            </section>
+          </div>
+		  <div class="2u">
+			<section>
+				<h2>Development Team</h2>
+				<ul class="small-image-list">
+					<li>
+						<a href="http://amoghconsultants.com"><img src="http://amoghconsultants.com/wp-content/uploads/2012/05/my_LogoSmall.png" alt="Logo" class="left" /></a>
+						<h4>Amogh Consultants</h4>
+						<p>Amogh Consultants is a Software and Cloud Development Services provider with offices in India and USA. We specialize in Application Design, Development and Cloud Hosting. </p>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Players</h2>
+				<div id="home">
+			        <div data-role="content">
+			            Add Player Here:
+			            <input type="text" id="txtBox" data-inline="true"/>
+			            <input type="button" value="Save" class="button" id="btnID"/>
+			            <ul id="playerList" data-role="listview" data-inset="true">               
+			            </ul>
+				    </div>
+			</section>
+		  </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+table.t_data
+{
+    /* border: 1px; - **EDITED** - doesn't seem like influences here */
+    background-color: #080;
+    border-spacing: 1px;
+    margin: 0 auto 0 auto;
+}
+table.t_data thead th, table.t_data thead td
+{
+    background-color: #9f9;
+    /* border: #080 0px solid; - **EDITED** - doesn't seem like influences here */
+    padding: 5px;
+    margin: 1px;
+}
+table.t_data tbody th, table.t_data tbody td
+{
+    background-color: #fff;
+    /* border: #080 0px solid; - **EDITED** - doesn't seem like influences here */
+    padding: 30px;
+    border: #080 0px solid;
+}
+
+.circle{width:20px;height:20px;border-radius: 30%;font-size:20px;color:#321;line-height:20px;text-align:center;background-color:#fff}
+</style>
