@@ -1,24 +1,117 @@
 
 <script type="text/javascript">
+
+var storedNames = [];
+
+var whoIsPlaying = "";
+var whoIsPlayingCount = 0;
 	 jQuery(function() {
+			$("#mobileUI-site-title").text("Super Bowl Grid");
+	        $(".mobileUI-site-nav-link").each(function(){
+	            if ($(this).text() == "Homepage" || $(this).text() == "About"){
+	                $(this).hide();
+	            }
+	        });
+	        $("h1").hide();
+	        $("h3").hide();
 	 		buildTable(11, 11);
+ 			loadPlayers();
+
+			$("#tbl").find("td").each(function() {
+	 			if ($(this).text() == '')
+	 			{
+	 				$(this).hover(function(){
+						$(this).addClass("circle");
+						$(this).text(whoIsPlaying);
+					}, function(){
+						$(this).removeClass("circle");
+						$(this).text('');
+					});
+	 			}
+	 		});
+
 	 		$("#tbl").find("td").each(function() {
- 				$(this).text("u");
-				$(this).hover(function(){
+ 				$(this).click(function(){
 					$(this).addClass("circle");
-				}, function(){
-					$(this).removeClass("circle");
+					if ($(this).text() == whoIsPlaying) {
+						$(this).text('');
+						whoIsPlayingCount;
+						$("#playerList").find("#" + whoIsPlaying).append("<p>" + whoIsPlayingCount +"</p>");							
+					}
+					else if ($(this).text() == '') {		
+						$(this).text(whoIsPlaying);
+						whoIsPlayingCount ++;
+						$("#playerList").find("#" + whoIsPlaying).append("<p>" + whoIsPlayingCount +"</p>");
+					}
+					else {
+						$(this).hover(function(){
+							$(this).addClass("circle");
+							$(this).text(whoIsPlaying);
+						}, function(){
+							$(this).addClass("circle");
+							$(this).text(whoIsPlaying);
+						});
+					}
 				});
-	 		})
+ 			});
 
 	 		var $lst = $('#playerList');
-			$("#btnID").on("click",function() {    
-			    var $txtBox = $("#txtBox");
-			    var $li = $('<li/>').html($txtBox.val());           
-			    $lst.append($li).listview('refresh'); 
-			    $txtBox.val("");
+			$("#txtBox").on("blur",function() {
+				if ($("#txtBox").val() != '') {
+				    var $txtBox = $("#txtBox");
+				    var li_id = $txtBox.val().substring(0, 3);
+				    var $li = $('<li class="roundedLi" />').html($txtBox.val());
+				    $li.attr("id",li_id);         
+				    $lst.append($li); 
+					storePlayers($txtBox.val());
+				    $txtBox.val("");
+
+					$("#playerList").find("li").each(function(){
+						$(this).click(function(){
+							whoIsPlaying = $(this).attr("id");
+						});
+					});
+			 		$("#tbl").find("td").each(function() {
+			 			if ($(this).text() == '')
+			 			{
+			 				$(this).hover(function(){
+								$(this).addClass("circle");
+								$(this).text(whoIsPlaying);
+							}, function(){
+								$(this).removeClass("circle");
+								$(this).text('');
+							});
+			 			}
+			 		});
+				}
 			 });
 	 	});
+
+	function loadPlayers()
+	{
+			storedNames = JSON.parse(localStorage["names"]);
+			var $lst = $('#playerList');
+			for (var i = 0; i<storedNames.length; i++)
+			{
+				if (storedNames[i] != null){
+					var $li = $('<li class="roundedLi" />').html(storedNames[i]);
+				    $li.attr("id",storedNames[i].substring(0,3));         
+				    $lst.append($li); 
+
+					$("#playerList").find("li").each(function(){
+						$(this).click(function(){
+							whoIsPlaying = $(this).attr("id");
+						});
+					});
+				}
+			}
+	}
+
+	function storePlayers(playerName)
+	{
+		storedNames.push(playerName);
+		localStorage["names"] = JSON.stringify(storedNames);
+	}
 
 	 function buildTable(rows, cols)
 	 {
@@ -27,7 +120,10 @@
 		{
 		    var tr = $('<tr>');
 		    for (var c = 0; c < cols; c++)
-		        $('<td>c</td>').appendTo(tr); //fill in your cells with something meaningful here
+		    {
+		    	var tdstring = '<td id=' + r + '_' + c + '></td>';
+		        $(tdstring).appendTo(tr); //fill in your cells with something meaningful here
+		    }
 		    tr.appendTo(table);
 		}
 		table.appendTo('body');
@@ -48,6 +144,16 @@
           </div>
 		  <div class="2u">
 			<section>
+				<h2>Players</h2>
+				<div id="home">
+			        <div data-role="content">
+			            <ul id="playerList" data-role="listview" data-inset="true">               
+			            </ul>
+			            <input type="text" id="txtBox" data-inline="true"/>
+
+				    </div>
+			</section>
+			<section>
 				<h2>Development Team</h2>
 				<ul class="small-image-list">
 					<li>
@@ -57,18 +163,6 @@
 					</li>
 				</ul>
 			</section>
-
-			<section>
-				<h2>Players</h2>
-				<div id="home">
-			        <div data-role="content">
-			            Add Player Here:
-			            <input type="text" id="txtBox" data-inline="true"/>
-			            <input type="button" value="Save" class="button" id="btnID"/>
-			            <ul id="playerList" data-role="listview" data-inset="true">               
-			            </ul>
-				    </div>
-			</section>
 		  </div>
         </div>
       </div>
@@ -77,15 +171,14 @@
     <style>
 table.t_data
 {
-    /* border: 1px; - **EDITED** - doesn't seem like influences here */
-    background-color: #080;
+	border: 1px solid #0C2AA2; 
+    background-color: #3E4780;
     border-spacing: 1px;
     margin: 0 auto 0 auto;
 }
 table.t_data thead th, table.t_data thead td
 {
     background-color: #9f9;
-    /* border: #080 0px solid; - **EDITED** - doesn't seem like influences here */
     padding: 5px;
     margin: 1px;
 }
@@ -93,9 +186,34 @@ table.t_data tbody th, table.t_data tbody td
 {
     background-color: #fff;
     /* border: #080 0px solid; - **EDITED** - doesn't seem like influences here */
-    padding: 30px;
-    border: #080 0px solid;
+    border: #0C2AA2 1px solid;
+    width: 25px;
+    height: 25px;
+    padding: 10px;
 }
 
-.circle{width:20px;height:20px;border-radius: 30%;font-size:20px;color:#321;line-height:20px;text-align:center;background-color:#fff}
+.roundedLi{
+	width:200px;height:50px;
+	-webkit-border-radius: 20px 20px 20px 20px;
+	-moz-border-radius: 20px 20px 20px 20px;
+	border-radius: 20px 20px 20px 20px;
+	background-color:#3E4780;
+	color:white;
+	text-align:center;
+	vertical-align: center;
+	line-height: 50px;
+	font-size: 30px;
+    margin:0 0 5px 0;
+}
+
+.circle{
+	width:20px;
+	height:20px;
+	border-radius: 50%;
+	font-size:15px;
+	color:#3E4780;
+	text-align:center;
+	background-color:#3E4780;
+	line-height: 10px;
+}
 </style>
