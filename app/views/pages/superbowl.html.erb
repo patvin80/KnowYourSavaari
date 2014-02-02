@@ -1,9 +1,14 @@
 
 <script type="text/javascript">
-
+var horizontalPool = [];
+var horizontalInfo = [];
+var verticalPool = [];
+var verticalInfo = [];
 var storedNames = [];
-
+var playerData = [];
+var tbGameData = [];
 var whoIsPlaying = "";
+var whatColorIsPlaying = '';
 var whoIsPlayingCount = 0;
 	 jQuery(function() {
 			$("#mobileUI-site-title").text("Super Bowl Grid");
@@ -12,109 +17,428 @@ var whoIsPlayingCount = 0;
 	                $(this).hide();
 	            }
 	        });
+	        $("#header-wrapper").hide();
 	        $("h1").hide();
-	        $("h3").hide();
+	        //$("h3").hide();
 	 		buildTable(11, 11);
  			loadPlayers();
+			loadTableData();
+			$("#clrCache").click(function(){
+				if (confirm("This will clear your entire grid and is an administrative function. Are you sure you want to clear all your data and restart the game?"))
+				{
+					localStorage.clear();
+					location.reload();
+				}
+			});
+			if (loadGameData())
+			{
+				$("#gameOn").hide();
+				$("#txtBox").hide();
+				$("#playerList").hide();
+				$("#results").click(function(){
 
-			$("#tbl").find("td").each(function() {
-	 			if ($(this).text() == '')
-	 			{
-	 				$(this).hover(function(){
-						$(this).addClass("circle");
-						$(this).text(whoIsPlaying);
-					}, function(){
-						$(this).removeClass("circle");
-						$(this).text('');
+					var db1 = sumDigits($("#qtr1DB").val());
+					var ss1 = sumDigits($("#qtr1SS").val());
+					HighlightWinningCell(db1, ss1);
+					var db2 = sumDigits($("#qtr2DB").val());
+					var ss2 = sumDigits($("#qtr2SS").val());
+					HighlightWinningCell(db2, ss2);
+					var db3 = sumDigits($("#qtr3DB").val());
+					var ss3 = sumDigits($("#qtr3SS").val());
+					HighlightWinningCell(db3, ss3);
+					var db4 = sumDigits($("#qtr4DB").val());
+					var ss4 = sumDigits($("#qtr4SS").val());
+					HighlightWinningCell(db4, ss4);
+				});
+				$("#showPlayers").click(function(){
+					$("#playerList").toggle();
+					if ($(this).text() == "Show Players")
+					{
+						$(this).text("Hide Players");
+					}
+					else{
+						$(this).text("Show Players");
+					}
+				});
+			}
+			else{
+				$("#showPlayers").hide();
+				setWhoIsPlaying();
+
+				$("#gameOn").click(function(){
+					horizontalPool = [0,1,2,3,4,5,6,7,8,9];
+					verticalPool = [0,1,2,3,4,5,6,7,8,9];
+					populateVerticalRandomColumn();
+					populateHorizontalRandomRow();
+					showColumn(0);
+					showRow(0);
+					$("#0_0").attr("visibility", "hidden");
+
+					$("#playerList").find("li").each(function(){
+						$(this).stop().show().fadeTo(0, 100);
 					});
-	 			}
-	 		});
+					saveHorizontalRow();
+					saveVerticalRow();
+				});
 
-	 		$("#tbl").find("td").each(function() {
- 				$(this).click(function(){
-					$(this).addClass("circle");
-					if ($(this).text() == whoIsPlaying) {
-						$(this).text('');
-						whoIsPlayingCount;
-						$("#playerList").find("#" + whoIsPlaying).append("<p>" + whoIsPlayingCount +"</p>");							
-					}
-					else if ($(this).text() == '') {		
-						$(this).text(whoIsPlaying);
-						whoIsPlayingCount ++;
-						$("#playerList").find("#" + whoIsPlaying).append("<p>" + whoIsPlayingCount +"</p>");
-					}
-					else {
-						$(this).hover(function(){
-							$(this).addClass("circle");
+		 		$("#tbl").find("td").each(function() {
+	 				$(this).click(function(){
+						$(this).addClass("circle");
+						if ($(this).text() == whoIsPlaying) {
+							$(this).text('');
+							whoIsPlayingCount--;
+							$(this).attr("style", "background-color:#fff !important;");
+							$("#playerList").find("#" + whoIsPlaying +"_pc").text(whoIsPlayingCount);
+							$(this).removeClass("pickedCircle");
+							removePlayerSelection($(this).attr("id"));	
+						}
+						else if ($(this).text() == '') {		
+							$(this).toggleClass("pickedCircle");
 							$(this).text(whoIsPlaying);
-						}, function(){
-							$(this).addClass("circle");
-							$(this).text(whoIsPlaying);
+							$(this).attr("style", "background-color:" + whatColorIsPlaying + "!important;");
+							whoIsPlayingCount ++;
+							$("#playerList").find("#" + whoIsPlaying +"_pc").text(whoIsPlayingCount);
+							savePlayerSelection($(this).attr("id"));		
+						}
+					});
+	 			});
+
+		 		var $lst = $('#playerList');
+				$("#txtBox").on("blur",function() {
+					if ($("#txtBox").val() != '') {
+					    var $txtBox = $("#txtBox");
+					    
+					    var playerColorRan = '#'+ ('000000' + (Math.random()*0xFFFFFF<<0).toString(16)).slice(-6);
+					    var playerInfo = JSON.parse(savePlayerInfo($txtBox.val(), playerColorRan));
+
+					    var li_id = playerInfo.ID;
+					    var $li = $('<li class="roundedLi" />').html($txtBox.val());
+						$li.attr("style", "background-color:" + playerInfo.PlayerColor);
+					    var $playerCount = $('<span />').html("0");
+					    $playerCount.attr("id",li_id + "_pc");
+					    $li.append($playerCount);         				    
+					    $li.attr("id",li_id);         
+					    $lst.append($li); 
+						storePlayers($txtBox.val());
+					    $txtBox.val("");
+
+						$("#playerList").find("li").each(function(){
+							$(this).click(function(){
+								whoIsPlaying = $(this).attr("id");
+								whoIsPlayingCount = findPlayerSelectionCount(whoIsPlaying);
+								whatColorIsPlaying = findPlayerColorInfo(whoIsPlaying);
+								$(this).siblings().each(function(){
+									$(this).removeClass("selected");
+									$(this).addClass("roundedLi");
+								});
+								$(this).removeClass("roundedLi");		
+								$(this).addClass("selected");
+							});
 						});
 					}
 				});
- 			});
-
-	 		var $lst = $('#playerList');
-			$("#txtBox").on("blur",function() {
-				if ($("#txtBox").val() != '') {
-				    var $txtBox = $("#txtBox");
-				    var li_id = $txtBox.val().substring(0, 3);
-				    var $li = $('<li class="roundedLi" />').html($txtBox.val());
-				    $li.attr("id",li_id);         
-				    $lst.append($li); 
-					storePlayers($txtBox.val());
-				    $txtBox.val("");
-
-					$("#playerList").find("li").each(function(){
-						$(this).click(function(){
-							whoIsPlaying = $(this).attr("id");
-						});
-					});
-			 		$("#tbl").find("td").each(function() {
-			 			if ($(this).text() == '')
-			 			{
-			 				$(this).hover(function(){
-								$(this).addClass("circle");
-								$(this).text(whoIsPlaying);
-							}, function(){
-								$(this).removeClass("circle");
-								$(this).text('');
-							});
-			 			}
-			 		});
-				}
-			 });
+			}
 	 	});
+
+	function HighlightWinningCell(rowTeam, colTeam)
+	{
+		var winningRow = 0;
+		var winningCol = 0;
+		verticalInfo = JSON.parse(localStorage["verticalInfoStorage"]);
+		horizontalInfo = JSON.parse(localStorage["horizontalInfoStorage"]);
+		for(var i=0; i< horizontalInfo.length; i++)
+		{
+			if (rowTeam == horizontalInfo[i])
+			{
+				winningCol = i+1;
+				break;
+			}
+		}
+		for(var i=0; i< verticalInfo.length; i++)
+		{
+			if (colTeam == verticalInfo[i])
+			{	
+				winningRow = i+1;
+				break;
+			}
+		}
+		if (winningRow > 0 && winningCol > 0)
+		{
+			for (i=0; i<10; i++)
+			{
+				$("#" + winningRow + "_" + winningCol).attr("style", "background-color:red;");
+				$("#" + winningRow + "_" + winningCol).fadeTo('slow', 0.5).fadeTo('slow', 1.0)
+			}
+		}
+	}
+
+	function findPlayerColorInfo(id)
+	{
+		playerData = localStorage.getItem("playerStorage");//Retrieve the stored data
+	    playerData = JSON.parse(playerData);
+		for(var i = 0; i < playerData.length; i++)
+		{
+		  if(JSON.parse(playerData[i]).ID == id)
+		  {
+		    return JSON.parse(playerData[i]).PlayerColor;
+		  }
+		}
+	}
+
+	function findIfPlayerIdExists(id)
+	{
+		var found = false;
+		playerData = localStorage.getItem("playerStorage");//Retrieve the stored data
+	    playerData = JSON.parse(playerData);
+	    if (playerData != null)
+	    {
+			for(var i = 0; i < playerData.length; i++)
+			{
+			  if(JSON.parse(playerData[i]).ID == id)
+			  {
+			    return true;
+			  }
+			}
+		}
+		return found;
+	}
+
+	function getRandomInt (min, max) {
+	    return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	function getPlayerUniqueIdentifier(playerFullName)
+	{
+		// var result = 
+		// if (result.length == 1)
+		// 	result = playerFullName.substring(0,2);
+		// if (findIfPlayerIdExists(result))			
+		// 	return result + getRandomInt(0,9);
+		// else
+		// 	return result;
+		return playerFullName.replace(/[^A-Z]/g, '');
+	}
+
+	function setWhoIsPlaying(){
+		whoIsPlaying = $("#playerList").find("li").first().attr("id");
+		whoIsPlayingCount = findPlayerSelectionCount(whoIsPlaying);
+		$("#playerList").find("li").first().siblings().each(function(){
+			$(this).removeClass("selected");
+			$(this).addClass("roundedLi");
+		});
+		$("#playerList").find("li").first().removeClass("roundedLi");		
+		$("#playerList").find("li").first().addClass("selected");
+	}
+
+	function sumDigits(number) {
+	  var str = number.toString();
+	  var sum = 0;
+
+	  for (var i = 0; i < str.length; i++) {
+	    sum += parseInt(str.charAt(i), 10);
+	  }
+
+	  return sum;
+	}
 
 	function loadPlayers()
 	{
-			storedNames = JSON.parse(localStorage["names"]);
-			var $lst = $('#playerList');
-			for (var i = 0; i<storedNames.length; i++)
-			{
-				if (storedNames[i] != null){
-					var $li = $('<li class="roundedLi" />').html(storedNames[i]);
-				    $li.attr("id",storedNames[i].substring(0,3));         
-				    $lst.append($li); 
 
-					$("#playerList").find("li").each(function(){
-						$(this).click(function(){
-							whoIsPlaying = $(this).attr("id");
-						});
+		var $lst = $('#playerList');
+		playerData = localStorage.getItem("playerStorage");//Retrieve the stored data
+	    playerData = JSON.parse(playerData); //Converts string to object
+	    if(playerData == null) //If there is no data, initialize an empty array
+	        playerData = [];
+	    for(var i in playerData){
+	        var playerInfo = JSON.parse(playerData[i]);
+			var $li = $('<li class="roundedLi" />').html(playerInfo.PlayerName);
+		    $li.attr("id", playerInfo.ID); 
+		    $li.attr("style", "background-color:" + playerInfo.PlayerColor);
+		    var playerPlayedCount = findPlayerSelectionCount(playerInfo.ID);    
+			var $playerCount = $('<span />').html(playerPlayedCount);
+		    $playerCount.attr("id",playerInfo.ID + "_pc");
+		    $li.append($playerCount);       
+		    $lst.append($li); 
+
+			$("#playerList").find("li").each(function(){
+				$(this).click(function(){
+					whoIsPlaying = $(this).attr("id");
+					whatColorIsPlaying = findPlayerColorInfo(whoIsPlaying);
+					$(this).siblings().each(function(){
+						$(this).removeClass("selected");
+						$(this).addClass("roundedLi");
 					});
-				}
-			}
+					$(this).addClass("selected");
+				});
+			});
+
+		}
 	}
+
+	function loadTableData()
+	{
+		tbGameData = localStorage.getItem("tbGameStorage");//Retrieve the stored data
+	    tbGameData = JSON.parse(tbGameData); //Converts string to object
+	    if(tbGameData == null) //If there is no data, initialize an empty array
+	        tbGameData = [];
+	    for(var i in tbGameData){
+	        var selectedCell = JSON.parse(tbGameData[i]);
+	        $("#" + selectedCell.ID).text(selectedCell.PlayerName);
+	        var userColor = findPlayerColorInfo(selectedCell.PlayerName);
+	        $("#" + selectedCell.ID).attr("style", "background-color:" + userColor + "!important;");
+	        $("#" + selectedCell.ID).addClass("pickedCircle");
+		}
+
+	}
+
+	function findPlayerSelectionCount(playerName)
+	{
+		var result = 0;
+		tbGameData = localStorage.getItem("tbGameStorage");//Retrieve the stored data
+	    tbGameData = JSON.parse(tbGameData); //Converts string to object
+	    for(var i in tbGameData){
+	        var selectedCell = JSON.parse(tbGameData[i]);
+	        if(selectedCell.PlayerName == playerName)
+	        {
+        		result++;
+	        }
+		}
+		return result;
+	}
+
+	function savePlayerInfo(playerName, color)
+	{
+		// playerData = localStorage.getItem("playerStorage");//Retrieve the stored data
+	 //    playerData = JSON.parse(playerData); //Converts string to object
+	 //    if(playerData == null) //If there is no data, initialize an empty array
+	 //        playerData = [];
+		var playerAbbr1 = getPlayerUniqueIdentifier(playerName);
+		var playerAbbr = playerAbbr1 + getRandomInt(0,9);
+	    var player = JSON.stringify({
+	    	ID: playerAbbr,
+	        PlayerName  : playerName,
+	        PlayerColor : color
+	    });
+	    playerData.push(player);
+	    localStorage.setItem("playerStorage", JSON.stringify(playerData));
+	    return player;
+	}
+
+	function savePlayerSelection(tdId)
+	{
+		tbGameData = localStorage.getItem("tbGameStorage");//Retrieve the stored data
+	    tbGameData = JSON.parse(tbGameData); //Converts string to object
+	    if(tbGameData == null) //If there is no data, initialize an empty array
+	        tbGameData = [];
+	    var selectedCell = JSON.stringify({
+	        ID    : tdId,
+	        PlayerName  : whoIsPlaying,
+	    });
+	    tbGameData.push(selectedCell);
+	    localStorage.setItem("tbGameStorage", JSON.stringify(tbGameData));
+	}
+
+	function removePlayerSelection(tdId)
+	{
+		tbGameData = localStorage.getItem("tbGameStorage");//Retrieve the stored data
+        tbGameData = JSON.parse(tbGameData);
+        findAndRemove(tbGameData, 'ID', tdId);
+	    localStorage.setItem("tbGameStorage", JSON.stringify(tbGameData));
+	}
+
+	function findAndRemove(array, property, value) {
+	   $.each(array, function(index, result) {
+	      if(JSON.parse(result)[property] == value) {
+	          //Remove from array
+	          array.splice(index, 1);
+	      }    
+	   });
+	}
+
+	//choice 1: HOrizontal Row
+	//Choice 2: Vertical Row
+	function getRandomNumberFrom0To9(choice){
+
+		if (choice == 1)
+			pool = horizontalPool;
+		else 
+			pool = verticalPool;
+	    if (pool.length == 0) {
+	        throw "No numbers left";
+	    }
+	    var index = Math.floor(pool.length * Math.random());
+	    var drawn = pool.splice(index, 1);
+	    return drawn[0];
+    }
+
+
+//Read more: http://mrbool.com/creating-a-crud-form-with-html5-local-storage-and-json/26719#ixzz2s5ljmNX9
 
 	function storePlayers(playerName)
 	{
 		storedNames.push(playerName);
-		localStorage["names"] = JSON.stringify(storedNames);
+		localStorage["player_names"] = JSON.stringify(storedNames);
 	}
 
-	 function buildTable(rows, cols)
-	 {
+	function saveHorizontalRow()
+	{
+		$('#tbl tr').first().find("td").each(function (index){
+			if (index != 0)
+			{
+				horizontalInfo.push($(this).text());
+			}
+		});
+		localStorage["horizontalInfoStorage"] = JSON.stringify(horizontalInfo);		
+	}
+
+	function saveVerticalRow()
+	{
+	    $('#tbl tr').not(":first").each(function(){
+	    	verticalInfo.push($(this).find("td").first().text());
+		});
+		localStorage["verticalInfoStorage"] = JSON.stringify(verticalInfo);		
+	}
+
+	function loadGameData()
+	{
+		if (localStorage["verticalInfoStorage"] != undefined && localStorage["horizontalInfoStorage"] != undefined)
+		{
+			verticalInfo = JSON.parse(localStorage["verticalInfoStorage"]);
+			horizontalInfo = JSON.parse(localStorage["horizontalInfoStorage"]);
+			if (verticalInfo != null){
+			    $('#tbl tr').not(":first").each(function(index){
+			    	$(this).find("td").first().text(verticalInfo[index]);
+			    	//$(this).find("td").first().text(1);
+					$(this).find("td").first().addClass("bluetd");
+					$(this).find("td").first().addClass("blueCircle");
+				});
+			}
+			if (horizontalInfo != null){
+				$('#tbl tr').first().find("td").each(function (index){
+			    	if (index == 0)
+			    	{
+				    	$(this).text('');
+				    	$(this).attr("style", "border: none;");
+			    	}
+			    	else
+			    	{
+				    	$(this).text(horizontalInfo[index-1]);
+						//$(this).text(3);
+						$(this).addClass("orangetd orangeCircle");
+					}
+			    });
+			}
+			showColumn(0);
+			showRow(0);
+			return true;
+		}
+		else
+			return false;
+
+	}
+
+	function buildTable(rows, cols)
+	{
 		var table = $('<table id="tbl" class="t_data"><tbody>');
 		for(var r = 0; r < rows; r++)
 		{
@@ -122,14 +446,54 @@ var whoIsPlayingCount = 0;
 		    for (var c = 0; c < cols; c++)
 		    {
 		    	var tdstring = '<td id=' + r + '_' + c + '></td>';
-		        $(tdstring).appendTo(tr); //fill in your cells with something meaningful here
+		        $(tdstring).appendTo(tr); 
 		    }
 		    tr.appendTo(table);
 		}
 		table.appendTo('body');
 		$("#table_div").append(table);
+		hideColumn(0);
+		hideRow(0);
 
 	 }
+
+	function hideColumn(columnIndex) {
+	    $('#tbl td:nth-child('+(columnIndex+1)+')').hide();
+	}
+	function hideRow(rowIndex) {
+	    $('#tbl tr:nth-child('+(rowIndex+1)+')').hide();
+	}
+
+	function showColumn(columnIndex) {
+	    $('#tbl td:nth-child('+(columnIndex+1)+')').show();
+	}
+	function showRow(rowIndex) {
+	    $('#tbl tr:nth-child('+(rowIndex+1)+')').show();
+	}
+
+	function populateVerticalRandomColumn() {
+	    $('#tbl tr').not(":first").each(function(){
+	    	$(this).find("td").first().text(getRandomNumberFrom0To9(2));
+	    	//$(this).find("td").first().text(1);
+			$(this).find("td").first().addClass("bluetd");
+			$(this).find("td").first().addClass("blueCircle");
+		});
+	}
+	function populateHorizontalRandomRow() {
+	    $('#tbl tr').first().find("td").each(function (index){
+	    	if (index == 0)
+	    	{
+		    	$(this).text('');
+		    	$(this).attr("style", "border: none;");
+	    	}
+	    	else
+	    	{
+		    	$(this).text(getRandomNumberFrom0To9(1));
+				//$(this).text(3);
+				$(this).addClass("orangetd orangeCircle");
+			}
+	    });
+	}
 </script>
 
 
@@ -144,25 +508,49 @@ var whoIsPlayingCount = 0;
           </div>
 		  <div class="2u">
 			<section>
-				<h2>Players</h2>
+				<h2>Players</h2> <a href="#" id="showPlayers">Show Players</a>
 				<div id="home">
 			        <div data-role="content">
 			            <ul id="playerList" data-role="listview" data-inset="true">               
 			            </ul>
-			            <input type="text" id="txtBox" data-inline="true"/>
-
+			            <input type="text" id="txtBox" placeholder="Add Player" class="addPlayer" data-inline="true"/>
+			            <br/>
+			            <br/>
+						<input type="button" id="gameOn" class="button" value="No More Bets"/>
+		            	
 				    </div>
-			</section>
-			<section>
-				<h2>Development Team</h2>
-				<ul class="small-image-list">
-					<li>
-						<a href="http://amoghconsultants.com"><img src="http://amoghconsultants.com/wp-content/uploads/2012/05/my_LogoSmall.png" alt="Logo" class="left" /></a>
-						<h4>Amogh Consultants</h4>
-						<p>Amogh Consultants is a Software and Cloud Development Services provider with offices in India and USA. We specialize in Application Design, Development and Cloud Hosting. </p>
-					</li>
-				</ul>
-			</section>
+				<h2>Results</h2>
+					<div id="column1-wrap">
+					    <div id="column1"><h3>Denver</h3></div>
+					</div>
+					<div id="column2"><h3>Seattle</h3></div>
+					<div id="clear"></div>
+					<div id="column1-wrap">
+					    <div id="column1"><input class="resultTb" type="text" id="qtr1DB" /></div>
+					</div>
+					<div id="column2"><input class="resultTb" type="text" id="qtr1SS" /></div>
+					<div id="clear"></div>
+					<div id="column1-wrap">
+					    <div id="column1"><input class="resultTb" type="text" id="qtr2DB" /></div>
+					</div>
+					<div id="column2"><input type="text" class="resultTb" id="qtr2SS" /></div>
+					<div id="clear"></div>
+					<div id="column1-wrap">
+					    <div id="column1"><input type="text" class="resultTb" id="qtr3DB" /></div>
+					</div>
+					<div id="column2"><input type="text" class="resultTb" id="qtr3SS" /></div>
+					<div id="clear"></div>	
+					<div id="column1-wrap">
+					    <div id="column1"><input type="text" id="qtr4DB" class="resultTb" /></div>
+					</div>
+					<div id="column2"><input type="text" id="qtr4SS" class="resultTb"/></div>
+					<div id="clear"></div>
+					<div id="column1-wrap">
+					    <div id="column1"><input type="button" class="button" id="results" value="Results"/></div>
+					</div>
+					<div id="column2"><a href="#" id="clrCache">Reset</a></div>
+					<div id="clear"></div> 				
+				</section>
 		  </div>
         </div>
       </div>
@@ -172,7 +560,7 @@ var whoIsPlayingCount = 0;
 table.t_data
 {
 	border: 1px solid #0C2AA2; 
-    background-color: #3E4780;
+    /*background-color: #3E4780;*/
     border-spacing: 1px;
     margin: 0 auto 0 auto;
 }
@@ -184,7 +572,7 @@ table.t_data thead th, table.t_data thead td
 }
 table.t_data tbody th, table.t_data tbody td
 {
-    background-color: #fff;
+    
     /* border: #080 0px solid; - **EDITED** - doesn't seem like influences here */
     border: #0C2AA2 1px solid;
     width: 25px;
@@ -198,12 +586,25 @@ table.t_data tbody th, table.t_data tbody td
 	-moz-border-radius: 20px 20px 20px 20px;
 	border-radius: 20px 20px 20px 20px;
 	background-color:#3E4780;
+	color:#fff;
+	text-align:center;
+	vertical-align: center;
+	line-height: 50px;
+	font-size: 20px;
+    margin:0 0 5px 0;
+}
+
+input.addPlayer{
+	width:200px;height:50px;
+	-webkit-border-radius: 20px 20px 20px 20px;
+	-moz-border-radius: 20px 20px 20px 20px;
+	border-radius: 20px 20px 20px 20px;
+	background-color:#3E4780;
 	color:white;
 	text-align:center;
 	vertical-align: center;
 	line-height: 50px;
-	font-size: 30px;
-    margin:0 0 5px 0;
+	font-size: 20px;
 }
 
 .circle{
@@ -211,9 +612,105 @@ table.t_data tbody th, table.t_data tbody td
 	height:20px;
 	border-radius: 50%;
 	font-size:15px;
-	color:#3E4780;
+	color:#fff;
 	text-align:center;
 	background-color:#3E4780;
-	line-height: 10px;
+
+	line-height: 20px;
+}
+
+.pickedCircle{
+	width:20px;
+	height:20px;
+	border-radius: 50%;
+	font-size:18px;
+	color:#fff;
+	text-align:center;
+	background-color:#3E4780;
+	line-height: 20px;
+}
+
+
+.orangetd
+{
+	background-color:#FB4F14 !important;
+	border-right-color:#fff !important;
+	border-top-color:#fff !important;
+}
+.orangeCircle
+{
+	width:20px ;
+	height:20px ;
+	border-radius: 50%;
+	font-size:25px;
+	text-align:center;
+	line-height: 20px;
+	background-color:#fff;
+	color:#002244;
+}
+.bluetd
+{
+	border-left-color:#fff !important;
+	border-bottom-color:#fff !important;
+}
+
+.blueCircle
+{
+	width:20px;
+	height:20px ;
+	border-radius: 50%;
+	font-size:25px;
+	text-align:center;
+	line-height: 20px;
+	background-color:#06192E;
+	color: #ACB6BC;
+}
+
+.selected{
+	width:200px;height:50px;
+	-webkit-border-radius: 20px 20px 20px 20px;
+	-moz-border-radius: 20px 20px 20px 20px;
+	border-radius: 20px 20px 20px 20px;
+	background-color:#3E4780;
+	color:#fff;
+	text-align:center;
+	vertical-align: center;
+	line-height: 50px;
+	font-size: 20px;
+    margin:0 0 5px 0;
+}
+
+li.selected:before {
+ 	content: '»';   
+	margin: 0 10px 0 0;
+}
+span {
+	padding-left: 10px;
+}
+
+#column1-wrap{
+    float: left;
+}
+#column1{
+    background-color: #fff;
+    margin-right: 10px;
+}
+#column2{
+    float: right;
+    width: 50px;
+    margin-left: -10px;
+}
+#clear{
+    clear: both;
+    margin-bottom: 20px
+}
+
+.resultTb{
+	width:40px;
+	height: 30px;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 30px; 
 }
 </style>
