@@ -35,20 +35,33 @@ var whoIsPlayingCount = 0;
 				$("#gameOn").hide();
 				$("#txtBox").hide();
 				$("#playerList").hide();
+				$("#resultDiv").show();
+				$("#nmb").hide();
 				$("#results").click(function(){
-
-					var db1 = sumDigits($("#qtr1DB").val());
-					var ss1 = sumDigits($("#qtr1SS").val());
-					HighlightWinningCell(db1, ss1);
-					var db2 = sumDigits($("#qtr2DB").val());
-					var ss2 = sumDigits($("#qtr2SS").val());
-					HighlightWinningCell(db2, ss2);
-					var db3 = sumDigits($("#qtr3DB").val());
-					var ss3 = sumDigits($("#qtr3SS").val());
-					HighlightWinningCell(db3, ss3);
-					var db4 = sumDigits($("#qtr4DB").val());
-					var ss4 = sumDigits($("#qtr4SS").val());
-					HighlightWinningCell(db4, ss4);
+					if ($("#qtr1DB").val()!='' && $("#qtr1SS").val() != '' )
+					{	
+						var db1 = sumDigits($("#qtr1DB").val());
+						var ss1 = sumDigits($("#qtr1SS").val());
+						HighlightWinningCell(db1, ss1);
+					}
+					if ($("#qtr2DB").val()!='' && $("#qtr2SS").val() != '' )
+					{
+						var db2 = sumDigits($("#qtr2DB").val());
+						var ss2 = sumDigits($("#qtr2SS").val());
+						HighlightWinningCell(db2, ss2);
+					}
+					if ($("#qtr3DB").val()!='' && $("#qtr3SS").val() != '' )
+					{
+						var db3 = sumDigits($("#qtr3DB").val());
+						var ss3 = sumDigits($("#qtr3SS").val());
+						HighlightWinningCell(db3, ss3);
+					}
+					if ($("#qtr4DB").val()!='' && $("#qtr4SS").val() != '' )
+					{
+						var db4 = sumDigits($("#qtr4DB").val());
+						var ss4 = sumDigits($("#qtr4SS").val());
+						HighlightWinningCell(db4, ss4);
+					}
 				});
 				$("#showPlayers").click(function(){
 					$("#playerList").toggle();
@@ -62,6 +75,7 @@ var whoIsPlayingCount = 0;
 				});
 			}
 			else{
+				$("#resultDiv").hide();
 				$("#showPlayers").hide();
 				setWhoIsPlaying();
 
@@ -108,7 +122,7 @@ var whoIsPlayingCount = 0;
 					if ($("#txtBox").val() != '') {
 					    var $txtBox = $("#txtBox");
 					    
-					    var playerColorRan = '#'+ ('000000' + (Math.random()*0xFFFFFF<<0).toString(16)).slice(-6);
+					    var playerColorRan = '#'+ ('000000' + (Math.random()*0x777777<<0).toString(16)).slice(-6);
 					    var playerInfo = JSON.parse(savePlayerInfo($txtBox.val(), playerColorRan));
 
 					    var li_id = playerInfo.ID;
@@ -166,7 +180,7 @@ var whoIsPlayingCount = 0;
 		{
 			for (i=0; i<10; i++)
 			{
-				$("#" + winningRow + "_" + winningCol).attr("style", "background-color:red;");
+				$("#" + winningRow + "_" + winningCol).attr("style", "background-color:#CA001A;");
 				$("#" + winningRow + "_" + winningCol).fadeTo('slow', 0.5).fadeTo('slow', 1.0)
 			}
 		}
@@ -502,7 +516,7 @@ var whoIsPlayingCount = 0;
         <div class="row main-row">
           <div class="8u ">
             <section class="middle-content">
-              <h2 style="text-align:center;font-size:40px;">SuperBowl</h2>
+              <h2 style="text-align:center;font-size:40px;">Super Bowl Grid Game</h2>
                 <div id="table_div"></div>
             </section>
           </div>
@@ -516,9 +530,11 @@ var whoIsPlayingCount = 0;
 			            <input type="text" id="txtBox" placeholder="Add Player" class="addPlayer" data-inline="true"/>
 			            <br/>
 			            <br/>
+			            <p id="nmb">Click No More Clicks when the Game Begins</p>
 						<input type="button" id="gameOn" class="button" value="No More Bets"/>
 		            	
 				    </div>
+				    <div id="resultDiv">
 				<h2>Results</h2>
 					<div id="column1-wrap">
 					    <div id="column1"><h3>Denver</h3></div>
@@ -549,7 +565,8 @@ var whoIsPlayingCount = 0;
 					    <div id="column1"><input type="button" class="button" id="results" value="Results"/></div>
 					</div>
 					<div id="column2"><a href="#" id="clrCache">Reset</a></div>
-					<div id="clear"></div> 				
+					<div id="clear"></div> 
+					</div>				
 				</section>
 		  </div>
         </div>
