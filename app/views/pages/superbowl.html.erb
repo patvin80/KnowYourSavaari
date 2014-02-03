@@ -119,37 +119,40 @@ var whoIsPlayingCount = 0;
 	 			});
 
 		 		var $lst = $('#playerList');
-				$("#txtBox").on("blur",function() {
-					if ($("#txtBox").val() != '') {
-					    var $txtBox = $("#txtBox");
-					    
-					    var playerColorRan = '#'+ ('000000' + (Math.random()*0x777777<<0).toString(16)).slice(-6);
-					    var playerInfo = JSON.parse(savePlayerInfo($txtBox.val(), playerColorRan));
+				$("#txtBox").on('keypress', function(e) {
+					var code = (e.keyCode ? e.keyCode : e.which);
+            		if (code == 13) {
+						if ($("#txtBox").val() != '') {
+						    var $txtBox = $("#txtBox");
+						    
+						    var playerColorRan = '#'+ ('000000' + (Math.random()*0x777777<<0).toString(16)).slice(-6);
+						    var playerInfo = JSON.parse(savePlayerInfo($txtBox.val(), playerColorRan));
 
-					    var li_id = playerInfo.ID;
-					    var $li = $('<li class="roundedLi" />').html($txtBox.val());
-						$li.attr("style", "background-color:" + playerInfo.PlayerColor);
-					    var $playerCount = $('<span />').html("0");
-					    $playerCount.attr("id",li_id + "_pc");
-					    $li.append($playerCount);         				    
-					    $li.attr("id",li_id);         
-					    $lst.append($li); 
-						storePlayers($txtBox.val());
-					    $txtBox.val("");
+						    var li_id = playerInfo.ID;
+						    var $li = $('<li class="roundedLi" />').html($txtBox.val());
+							$li.attr("style", "background-color:" + playerInfo.PlayerColor);
+						    var $playerCount = $('<span />').html("0");
+						    $playerCount.attr("id",li_id + "_pc");
+						    $li.append($playerCount);         				    
+						    $li.attr("id",li_id);         
+						    $lst.append($li); 
+							storePlayers($txtBox.val());
+						    $txtBox.val("");
 
-						$("#playerList").find("li").each(function(){
-							$(this).click(function(){
-								whoIsPlaying = $(this).attr("id");
-								whoIsPlayingCount = findPlayerSelectionCount(whoIsPlaying);
-								whatColorIsPlaying = findPlayerColorInfo(whoIsPlaying);
-								$(this).siblings().each(function(){
-									$(this).removeClass("selected");
-									$(this).addClass("roundedLi");
+							$("#playerList").find("li").each(function(){
+								$(this).click(function(){
+									whoIsPlaying = $(this).attr("id");
+									whoIsPlayingCount = findPlayerSelectionCount(whoIsPlaying);
+									whatColorIsPlaying = findPlayerColorInfo(whoIsPlaying);
+									$(this).siblings().each(function(){
+										$(this).removeClass("selected");
+										$(this).addClass("roundedLi");
+									});
+									$(this).removeClass("roundedLi");		
+									$(this).addClass("selected");
 								});
-								$(this).removeClass("roundedLi");		
-								$(this).addClass("selected");
 							});
-						});
+						}
 					}
 				});
 			}
@@ -231,7 +234,7 @@ var whoIsPlayingCount = 0;
 		// 	return result + getRandomInt(0,9);
 		// else
 		// 	return result;
-		return playerFullName.replace(/[^A-Z]/g, '');
+		return playerFullName.split(' ').map(function (s) { return s.charAt(0); }).join('');
 	}
 
 	function setWhoIsPlaying(){
@@ -253,7 +256,12 @@ var whoIsPlayingCount = 0;
 	    sum += parseInt(str.charAt(i), 10);
 	  }
 
-	  return sum;
+	  if (sum >= 10)
+	  {
+	  	return sumDigits(sum)
+	  }
+	  else
+	  	return sum;
 	}
 
 	function loadPlayers()
@@ -523,15 +531,15 @@ var whoIsPlayingCount = 0;
           </div>
 		  <div class="2u">
 			<section>
-				<h2>Players</h2> <a href="#" id="showPlayers">Show Players</a>
+				<h2>Players</h2><a href="#" id="clrCache">Reset</a> | <a href="#" id="showPlayers">Show Players</a>
 				<div id="home">
 			        <div data-role="content">
 			            <ul id="playerList" data-role="listview" data-inset="true">               
 			            </ul>
-			            <input type="text" id="txtBox" placeholder="Add Player" class="addPlayer" data-inline="true"/>
+			            <input type="text" id="txtBox" placeholder="Type Player Name and Enter" class="addPlayer" data-inline="true"/>
 			            <br/>
 			            <br/>
-			            <p id="nmb">Click No More Clicks when the Game Begins</p>
+			            <p id="nmb">Click No More Bets when the Game Begins</p>
 						<input type="button" id="gameOn" class="button" value="No More Bets"/>
 		            	
 				    </div>
@@ -565,7 +573,7 @@ var whoIsPlayingCount = 0;
 					<div id="column1-wrap">
 					    <div id="column1"><input type="button" class="button" id="results" value="Results"/></div>
 					</div>
-					<div id="column2"><a href="#" id="clrCache">Reset</a></div>
+					<div id="column2"></div>
 					<div id="clear"></div> 
 					</div>				
 				</section>
@@ -621,8 +629,8 @@ input.addPlayer{
 	color:white;
 	text-align:center;
 	vertical-align: center;
-	line-height: 50px;
-	font-size: 20px;
+	line-height: 25px;
+	font-size: 15px;
 }
 
 .circle{
