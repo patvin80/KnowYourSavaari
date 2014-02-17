@@ -488,23 +488,14 @@ var timer1,timer2;
 
             var angleCurrent = wheel.angleCurrent;
             var lastAngle    = angleCurrent;
-            if (key == 6)
-            {   
-                wheel.segments[winningIndex-1] = hiddenMonth1;
-                //wheel.segments[0] = hiddenMonth2;
-            }
-            else if (key == 0)
+            if (key == 0)
             {   
                 wheel.segments[6] = hiddenMonth1;
-                //wheel.segments[winningIndex+1] = hiddenMonth2;
             }
             else
             {
                 wheel.segments[winningIndex-1] = hiddenMonth1;
-                //wheel.segments[winningIndex+1] = hiddenMonth2;
             }            
-
-
 
             var segments  = wheel.segments;
             var len       = wheel.segments.length;
@@ -555,21 +546,12 @@ var timer1,timer2;
             var lastAngle    = angleCurrent;
             if (key == 6)
             {   
-                //wheel.segments[winningIndex-1] = hiddenMonth1;
                 wheel.segments[0] = hiddenMonth2;
-            }
-            else if (key == 0)
-            {   
-                //wheel.segments[6] = hiddenMonth1;
-                wheel.segments[winningIndex+1] = hiddenMonth2;
             }
             else
             {
-                //wheel.segments[winningIndex-1] = hiddenMonth1;
                 wheel.segments[winningIndex+1] = hiddenMonth2;
             }            
-
-
 
             var segments  = wheel.segments;
             var len       = wheel.segments.length;
@@ -775,6 +757,21 @@ var timer1,timer2;
                     });
                 });
                 $("#star").show();
+                var x;
+                timer2 = setInterval(function() {
+                    if (x==0){
+                        $("#star").addClass("nostar");
+                        $("#star").removeClass("star");
+                        x = 1;
+                    } 
+                    else
+                    {
+                        $("#star").addClass("star");
+                        $("#star").removeClass("nostar");
+                        x = 0;  
+                    }
+                }, 500);
+
                 setTimeout("clap.play()", 500);
                 //wheel.drawWheelWithShowSegment();
 

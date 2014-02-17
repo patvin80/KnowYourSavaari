@@ -174,15 +174,15 @@
 .star {
             width: 600px;
             height: 25px;
-            margin: 20px auto 0 -35px;
+            margin:auto;
             position: relative;
             background: url(images/gold-star.png);
             list-style: none;
-            }
+        }
 .nostar {
             width: 600px;
             height: 25px;
-            margin: 20px auto 0 auto;
+            margin: auto;
             position: relative;
             list-style: none;
             }            

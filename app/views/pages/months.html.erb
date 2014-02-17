@@ -139,26 +139,9 @@ var timer1, timer2;
 
                 wheel.drawWheelWithHideSegment(winningIndex);
                 wheel.drawNeedle();
-
+                $("#showAnswer").show();
                 $("#talkToMe").show();
                 playSong();
-                var x;
-                timer1 = setInterval(function() {
-                    segmentPopSound.play();
-                    if(x == 0) {
-                        wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FF9900");
-                        wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#FF9900");
-                        wheel.drawInnerWheel();
-                        x= 1;
-                    }
-                    else{
-                        wheel.drawColorSegment(winningIndex-1, hiddenMonth1LastAngle, hiddenMonth1Angle, "#FFff00");
-                        wheel.drawColorSegment(winningIndex+1, hiddenMonth2LastAngle, hiddenMonth2Angle, "#ffff00"); 
-                        wheel.drawInnerWheel();
-
-                        x=0;
-                    } 
-                }, 1000);
                 
             }
 
@@ -409,8 +392,8 @@ var timer1, timer2;
                 hiddenMonth2Key = 0;  
                 hiddenMonth1 = wheel.segments[key-1];
                 hiddenMonth2 = wheel.segments[0];
-                wheel.segments[0] = "";
-                wheel.segments[key-1] = "";
+                wheel.segments[0] = "???";
+                wheel.segments[key-1] = "???";
             }
             else if (key == 0)
             {   
@@ -418,8 +401,8 @@ var timer1, timer2;
                 hiddenMonth2Key = key + 1;
                 hiddenMonth1 = wheel.segments[11];
                 hiddenMonth2 = wheel.segments[key+1];
-                wheel.segments[11] = "";
-                wheel.segments[key+1] = "";
+                wheel.segments[11] = "???";
+                wheel.segments[key+1] = "???";
             }
             else
             {
@@ -427,8 +410,8 @@ var timer1, timer2;
                 hiddenMonth2Key = key+1;                
                 hiddenMonth1 = wheel.segments[key-1];
                 hiddenMonth2 = wheel.segments[key+1];
-                wheel.segments[key-1] = "";
-                wheel.segments[key+1] = "";
+                wheel.segments[key-1] = "???";
+                wheel.segments[key+1] = "???";
             }            
 
             var segments  = wheel.segments;
@@ -538,7 +521,121 @@ var timer1, timer2;
             ctx.stroke();
         },
 
+        drawWheelWithShowFirstSegment : function(key) {
+            var ctx = wheel.canvasContext;
 
+            var angleCurrent = wheel.angleCurrent;
+            var lastAngle    = angleCurrent;
+            if (key == 0)
+            {   
+                wheel.segments[11] = hiddenMonth1;
+            }
+            else
+            {
+                wheel.segments[winningIndex-1] = hiddenMonth1;
+            }            
+
+            var segments  = wheel.segments;
+            var len       = wheel.segments.length;
+            var colors    = wheel.colors;
+            var colorsLen = wheel.colors.length;
+
+            var centerX = wheel.centerX;
+            var centerY = wheel.centerY;
+            var size    = wheel.size;
+
+            var PI2 = Math.PI * 2;
+
+            ctx.lineWidth    = 1;
+            ctx.strokeStyle  = '#000000';
+            ctx.textBaseline = "middle";
+            ctx.textAlign    = "center";
+            ctx.font         = "1.0em Arial";
+
+            for (var i = 1; i <= len; i++) {
+                var angle = PI2 * (i / len) + angleCurrent;
+                wheel.drawSegment(i - 1, lastAngle, angle);
+                lastAngle = angle;
+            }
+            // Draw a center circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 20, 0, PI2, false);
+            ctx.closePath();
+
+            ctx.fillStyle   = '#ffffff';
+            ctx.strokeStyle = '#000000';
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw outer circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, size, 0, PI2, false);
+            ctx.closePath();
+
+            ctx.lineWidth   = 3;
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
+        },
+
+        drawWheelWithShowSecondSegment : function(key) {
+            var ctx = wheel.canvasContext;
+
+            var angleCurrent = wheel.angleCurrent;
+            var lastAngle    = angleCurrent;
+            if (key == 11)
+            {   
+                //wheel.segments[winningIndex-1] = hiddenMonth1;
+                wheel.segments[0] = hiddenMonth2;
+            }
+            else 
+            {
+                //wheel.segments[winningIndex-1] = hiddenMonth1;
+                wheel.segments[winningIndex+1] = hiddenMonth2;
+            }            
+
+
+
+            var segments  = wheel.segments;
+            var len       = wheel.segments.length;
+            var colors    = wheel.colors;
+            var colorsLen = wheel.colors.length;
+
+            var centerX = wheel.centerX;
+            var centerY = wheel.centerY;
+            var size    = wheel.size;
+
+            var PI2 = Math.PI * 2;
+
+            ctx.lineWidth    = 1;
+            ctx.strokeStyle  = '#000000';
+            ctx.textBaseline = "middle";
+            ctx.textAlign    = "center";
+            ctx.font         = "1.0em Arial";
+
+            for (var i = 1; i <= len; i++) {
+                var angle = PI2 * (i / len) + angleCurrent;
+                wheel.drawSegment(i - 1, lastAngle, angle);
+                lastAngle = angle;
+            }
+            // Draw a center circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 20, 0, PI2, false);
+            ctx.closePath();
+
+            ctx.fillStyle   = '#ffffff';
+            ctx.strokeStyle = '#000000';
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw outer circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, size, 0, PI2, false);
+            ctx.closePath();
+
+            ctx.lineWidth   = 3;
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
+        },
         drawWheel : function() {
             var ctx = wheel.canvasContext;
 
@@ -656,11 +753,15 @@ var timer1, timer2;
                     clap.addEventListener("ended", function() {
                         clap.setAttribute("src",hiddenMonth1 + ".mp3");
                         clap.play();
+                        wheel.drawWheelWithShowFirstSegment(winningIndex);   
+                        wheel.drawNeedle();
                         clap.addEventListener("ended", function() {
                             clap.setAttribute("src","MAI.mp3");
                             clap.play();
                             clap.addEventListener("ended", function() {
                                 clap.setAttribute("src",hiddenMonth2 + ".mp3");
+                                wheel.drawWheelWithShowSecondSegment(winningIndex);
+                                wheel.drawNeedle();
                                 clap.play();
                                 clap.addEventListener("ended", function() {
                                     clap.setAttribute("src","http://soundjax.com/reddo/82925%5ECLAP.mp3");
@@ -690,8 +791,6 @@ var timer1, timer2;
                     }
                 }, 500);
                 setTimeout("clap.play()", 500);
-                wheel.drawWheelWithShowSegment();
-                wheel.drawNeedle();
                 $(this).hide();
         });
       });
