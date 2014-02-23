@@ -141,6 +141,7 @@ var timer1, timer2;
                 wheel.drawNeedle();
                 $("#showAnswer").show();
                 $("#talkToMe").show();
+                $("#selectDiv").show();
                 playSong();
                 
             }
@@ -737,6 +738,7 @@ var timer1, timer2;
         $("h3").hide();
         $("#showAnswer").hide();
         $("#star").hide(); 
+        $("#selectDiv").hide();
         $("#talkToMe").click(function () {playSong();});
         $("#talkToMe").hide();  
         if (timer2 != 'undefined')
@@ -746,7 +748,14 @@ var timer1, timer2;
                 if (timer1 != 'undefined')
                     window.clearInterval(timer1);
                 var clap = $("#clap").get(0);
-                clap.setAttribute('src',"GB.mp3");
+                if (hiddenMonth1 == $("#month1Select").val() && hiddenMonth2 == $("#month2Select").val())
+                {
+                    clap.setAttribute('src',"GB.mp3");
+                }
+                else
+                {
+                    clap.setAttribute('src',"NQCA.mp3");
+                }
                 clap.addEventListener("ended", function() {
                     clap.setAttribute("src","MBI.mp3");
                     clap.play();
@@ -816,9 +825,41 @@ var timer1, timer2;
                     <canvas id="canvas" width="600" height="300"></canvas>
                 </div>
                 <div id="play" style="text-align:center;" >
+                <div id="selectDiv" >
+                    <h4>Select Your Answer</h4>
+                    Before: 
+                    <select id="month1Select">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                    After: <select id="month2Select">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select> 
+                  </div>
                   <h3 style="font-size:30px;"></h3> <br/>
                     <input type='button' class="button" id="talkToMe"  value="Ask Me" />
-                  <input type='button' class="button" id="showAnswer"  value="Answer" />
+                  <input type='button' class="button" id="showAnswer"  value="Check Answer" />
                 </div>
             </section>
           </div>

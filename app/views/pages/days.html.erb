@@ -138,6 +138,7 @@ var timer1,timer2;
                 wheel.drawNeedle();
                 $("#showAnswer").show();
                 $("#talkToMe").show();
+                $("#selectDiv").show();
                 playSong();    
             }
             /*
@@ -720,6 +721,7 @@ var timer1,timer2;
         $("h3").hide();
         $("#showAnswer").hide();
         $("#star").hide();   
+        $("#selectDiv").hide();
         if (timer2 != 'undefined')
             window.clearInterval(timer2);  
         $("#talkToMe").click(function () {playSong();});
@@ -727,7 +729,14 @@ var timer1,timer2;
         $("#showAnswer").click(function (){
                 $("#talkToMe").hide();
                 var clap = $("#clap").get(0);
-                clap.setAttribute('src',"GB.mp3");
+                if (hiddenMonth1 == $("#month1Select").val() && hiddenMonth2 == $("#month2Select").val())
+                {
+                    clap.setAttribute('src',"GB.mp3");
+                }
+                else
+                {
+                    clap.setAttribute('src',"NQCA.mp3");
+                }
                 clap.addEventListener("ended", function() {
                     clap.setAttribute("src","DBI.mp3");
                     clap.play();
@@ -802,9 +811,31 @@ var timer1,timer2;
                 <audio id="selectedDay" src=""></audio>
                 <audio id="segmentPop" src=""></audio>                
                 <div id="play" style="text-align:center;" >
+                <div id="selectDiv" >
+                    <h4>Select Your Answer</h4>
+                    Before: 
+                    <select id="month1Select">
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                    After: <select id="month2Select">
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select> 
+                  </div>    
                   <h3 style="font-size:30px;"></h3> <br/>
                     <input type='button' class="button" id="talkToMe"  value="Ask Me" />
-                    <input type='button' class="button" id="showAnswer"  value="Answer" />
+                    <input type='button' class="button" id="showAnswer"  value="Check Answer" />
                 </div>
             </section>
           </div>

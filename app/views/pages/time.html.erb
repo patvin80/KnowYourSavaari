@@ -21,16 +21,24 @@ var timer1;
           });
 
           $("#showAnswer").click(function (){
+
             $("h3").show();
             $("h3").text("Hour " + hourvalue + " : " + minvalue + " Mins");
             var song = $("#clap").get(0);
-            song.setAttribute('src',"TCSII.mp3");
+                        if ($("#hourSelect").val() == hourvalue && $("#minSelect").val() == minvalue)
+            {
+                song.setAttribute('src',"GB.mp3");
+            }
+            else
+            {
+                song.setAttribute('src',"NQCA.mp3");
+            }
             song.play();
             song.addEventListener("ended", function() {
-                    song.setAttribute("src","http://speechutil.com/convert/ogg?text='"+hourvalue +"hours" + minvalue + "minutes");
+                    song.setAttribute("src","TCSII.mp3");
                     song.play();
                     song.addEventListener("ended", function() {
-                        song.setAttribute("src","GB.mp3");
+                        song.setAttribute("src","http://speechutil.com/convert/ogg?text='"+hourvalue +"hours" + minvalue + "minutes");
                         song.play();
                         song.addEventListener("ended", function() {
                             song.setAttribute("src","http://soundjax.com/reddo/82925%5ECLAP.mp3");
@@ -62,8 +70,6 @@ var timer1;
                     x = 0;  
                 }
             }, 500);
-            //setTimeout("clap.play()", 3000);
-
           });
 
         $("h1").hide();
@@ -156,9 +162,38 @@ var timer1;
                 <audio id="sound" src=""></audio>
                 <audio id="clap" src=""></audio>
                 <div id="play" style="text-align:center;" >
+                    <h4>Select Your Answer</h4>
+                    Hour: <select id="hourSelect">
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                        <option value="5">05</option>
+                        <option value="6">06</option>
+                        <option value="7">07</option>
+                        <option value="8">08</option>
+                        <option value="9">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    Mins: <select id="minSelect">
+                        <option value="5">00</option>
+                        <option value="5">05</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                    </select> 
                   <h3 style="font-size:30px;"></h3> <br/>
                   <input type='button' class="button" id="timeset" value="Play Again" />
-                  <input type='button' class="button" id="showAnswer" value="Answer" />
+                  <input type='button' class="button" id="showAnswer" value="Check Answer" />
                 </div>
             </section>
           </div>
